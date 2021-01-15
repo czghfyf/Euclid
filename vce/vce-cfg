@@ -1,0 +1,14 @@
+name=vce000
+
+# M - master
+# W - worker
+mode=W
+
+svr-port=8760
+
+data-dir=/root/vce/vce_data
+
+# dir be used for update and delete cube data.
+cube-data-ud-dir=/root/vce/cd_ud
+
+log-file=/root/vce/temp_log_file
