@@ -1,2 +1,2 @@
 # Euclid
-a olap engine
+Simple and efficient OLAP engine.
