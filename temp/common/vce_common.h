@@ -11,7 +11,6 @@ int open_svr_socket(int port);
 
 int create_tcp_link(char *target_ip, int target_port);
 
-// return a < b ? -1 : (a > b ? 1 : 0)
 int unsigned_int_list_comp(unsigned int *a, unsigned int *b, int size);
 
 void unsigned_int_list_exchange(unsigned int *a, unsigned int *b, int size);
