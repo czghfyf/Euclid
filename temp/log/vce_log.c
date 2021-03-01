@@ -2,7 +2,6 @@
 #include <stdarg.h>
 #include <time.h>
 
-// #include "vce_common.h"
 #include "vce_log.h"
 #include "vce_cfg.h"
 
