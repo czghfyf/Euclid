@@ -6,6 +6,9 @@
 target/
 
 
+tests/
+
+
 # Log file
 *.log
 
