@@ -2,6 +2,6 @@
 
 int main(int argc, char *argv[])
 {
-	printf("Euclid data engine\n");
-	return 0;
+    printf("Euclid data engine\n");
+    return 0;
 }
