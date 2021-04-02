@@ -1,7 +1,7 @@
 /* simplest version of calculator */
-
 %{
 #include <stdio.h>
+
 int yyerror(const char *, ...);
 extern int yylex();
 extern int yyparse();
@@ -44,11 +44,7 @@ int main()
 }
 int yyerror(const char *s, ...)
 {
-    int ret;
-    va_list va;
-    va_start(va, s);
-    ret = vfprintf(stderr, s, va);
-    va_end(va);
-    return ret;
+	printf("error: %s\n", s);
+    return -1;
 }
 

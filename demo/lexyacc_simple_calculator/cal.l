@@ -1,4 +1,7 @@
-nclude "fb1-5.tab.h"
+/* recognize tokens for the calculator and print them out */
+
+%{
+# include "cal.tab.h"
 extern int yyerror(const char *, ...);
 %}
 
