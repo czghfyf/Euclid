@@ -9,7 +9,7 @@ extern int yyparse();
 
 /* declare tokens */
 %token NUMBER
-%token ADD SUB MUL DIV ABS
+%token ADD SUB MUL DIV
 %token OP CP
 %token EOL
 
@@ -23,7 +23,6 @@ calclist: /* nothing */
 exp: factor
     | exp ADD exp { $$ = $1 + $3; }
     | exp SUB factor { $$ = $1 - $3; }
-    | exp ABS factor { $$ = $1 | $3; }
 ;
 
 factor: term
@@ -32,7 +31,6 @@ factor: term
 ;
 
 term: NUMBER
-    | ABS term { $$ = $2 >= 0? $2 : - $2; }
     | OP exp CP { $$ = $2; }
 ;
 %%
