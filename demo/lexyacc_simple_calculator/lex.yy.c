@@ -372,7 +372,7 @@ struct yy_trans_info
 static yyconst flex_int16_t yy_accept[19] =
     {   0,
         0,    0,   14,   12,   11,    9,    6,    7,    3,    1,
-        2,    4,    8,    5,    8,   10,   10,    0
+        2,    4,    8,    5,   10,    8,   10,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -415,28 +415,28 @@ static yyconst flex_int32_t yy_meta[12] =
 
 static yyconst flex_int16_t yy_base[20] =
     {   0,
-        0,    0,   18,   19,   19,   19,   19,   19,   19,    7,
-        6,    6,    4,   19,    3,    0,    0,   19,   11
+        0,    0,   16,   17,   17,   17,   17,   17,   17,   17,
+       17,    6,    4,   17,    0,    3,    0,   17,   11
     } ;
 
 static yyconst flex_int16_t yy_def[20] =
     {   0,
        18,    1,   18,   18,   18,   18,   18,   18,   18,   18,
-       18,   18,   18,   18,   18,   19,   19,    0,   18
+       18,   18,   18,   18,   19,   18,   19,    0,   18
     } ;
 
-static yyconst flex_int16_t yy_nxt[31] =
+static yyconst flex_int16_t yy_nxt[29] =
     {   0,
         4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
-       14,   17,   15,   15,   16,   15,   15,   18,    3,   18,
-       18,   18,   18,   18,   18,   18,   18,   18,   18,   18
+       14,   17,   16,   16,   15,   18,    3,   18,   18,   18,
+       18,   18,   18,   18,   18,   18,   18,   18
     } ;
 
-static yyconst flex_int16_t yy_chk[31] =
+static yyconst flex_int16_t yy_chk[29] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,   19,   15,   13,   12,   11,   10,    3,   18,   18,
-       18,   18,   18,   18,   18,   18,   18,   18,   18,   18
+        1,   19,   16,   13,   12,    3,   18,   18,   18,   18,
+       18,   18,   18,   18,   18,   18,   18,   18
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -701,7 +701,7 @@ yy_match:
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 19 );
+		while ( yy_base[yy_current_state] != 17 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];

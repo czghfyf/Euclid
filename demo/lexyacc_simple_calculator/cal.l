@@ -13,7 +13,7 @@ extern int yyerror(const char *, ...);
 "|" { return ABS; }
 "(" { return OP; }
 ")" { return CP; }
-[-+]?[0-9]+ { yylval = atoi(yytext); return NUMBER; }
+[0-9]+ { yylval = atoi(yytext); return NUMBER; }
 
 \n      { return EOL; }
 "//".*  
