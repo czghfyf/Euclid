@@ -10,7 +10,13 @@ select
 from [Cube-666]
 where
 ( &9010.&9876, [region dimension].[USA].[big apple] )
+
 --------------------------------------------------------------------------------
+
+select
+{ [dimA].[m000], [dimA].[m001] } on rows,
+{ [dimX].[m111], [dimY].[m222] } on columns
+from [Cube000]
 
 */
 %{
@@ -21,12 +27,59 @@ extern int yyparse();
 %}
 
 /* declare tokens */
-%token NUMBER
-%token ADD SUB MUL DIV
-%token OP CP
-%token EOL
+%token SELECT
+%token FROM
+%token ON
+%token COLUMNS ROWS
+
+%token COMMA				/* , */
+%token SQUARE_BRACKET_L		/* [ */
+%token SQUARE_BRACKET_R		/* ] */
+%token ROUND_BRACKET_L		/* ( */
+%token ROUND_BRACKET_R		/* ) */
+%token CURLY_BRACKET_L		/* { */
+%token CURLY_BRACKET_R		/* } */
 
 %%
+
+mdx: /* nothing */
+  |	select_statement {
+		printf("select_statement { $1 = %p }\n", $1);
+		$$ = $1;
+	}
+;
+
+select_statement:
+	SELECT axises_specification {
+		printf("axises_specification\n");
+	}
+  |	FROM cube_specification {
+		printf("cube_specification\n");
+	}
+;
+
+axises_specification:
+	axis_specification {
+		printf("axis_specification\n");
+	}
+  |	axises_specification COMMA axis_specification {
+		printf("axises_specification COMMA axis_specification\n");
+	}
+;
+
+axis_specification:
+
+;
+
+cube_specification:
+	SQUARE_BRACKET_L        xxxxxxxxx cube name xxxxxxxxxx         SQUARE_BRACKET_R
+;
+
+
+
+
+
+
 
 calclist: /* nothing */
     | calclist exp EOL { printf("{{{ result = %d }}}\n", $2); }
@@ -46,8 +99,10 @@ factor: term
 term: NUMBER
     | OP exp CP { $$ = $2; }
 ;
+
 %%
-int main()
+
+int main(int argc, char *argv[])
 {
 
     if (my_scan_string("60000000+7888\n") != 0) { // 60,007,888
@@ -70,6 +125,7 @@ int main()
     return 0;
 
 }
+
 int yyerror(const char *s, ...)
 {
 	printf("[yy error] %s\n", s);
