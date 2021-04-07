@@ -1,9 +1,5 @@
-/*
-java jjtree WormholeMDXParser.jjt
-java javacc WormholeMDXParser.jj
-*/
 options {
-//	JDK_VERSION         = "1.5"; // why not use JDK 1.8 ?
+//	JDK_VERSION         = "1.5";
 
 	STATIC              = false;
 
