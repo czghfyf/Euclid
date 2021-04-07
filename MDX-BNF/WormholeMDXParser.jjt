@@ -11,6 +11,7 @@ options {
 	UNICODE_INPUT       = true;
 
 //	USER_TOKEN_MANAGER  = true; // default option is false
+
 }
 
 PARSER_BEGIN(WormholeMDXParser)
