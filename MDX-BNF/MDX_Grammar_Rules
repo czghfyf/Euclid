@@ -60,6 +60,7 @@ Sample.Basic
 
 Note:
 The cardinality of the <set> in the slicer should be 1.
+-------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -86,7 +87,7 @@ A member name can be specified in the following ways:
 
 		Note:
 		Use only one ancestor in the qualification. Essbase returns an error if multiple ancestors are included. For example, [Market].[New York] is a valid name for New York, and so is [East].[New York]. However, [Market].[East].[New York] returns an error.
-		----------------------------------------------------------------------------------------------------------
+		-----------------------------------------------------------------------------------------------------------------
 
 	3.	By specifying the name of a calculated member defined in the WITH section.
 
@@ -218,7 +219,7 @@ For example, {(Actual, Sales), (Budget, COGS)} is a set.
 
 Note:
 The size of an input set to a function has range between 0 and 4294967295 tuples.
-------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -290,7 +291,7 @@ The size of an input set to a function has range between 0 and 4294967295 tuples
 
 Note:
 <conditional_expression> is expected to return a <set> in the above production.
-
+-------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -340,7 +341,7 @@ Note:
 
 Note:
 The data type of <value_expr_primary> in the above production must be numeric.
-
+-------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -410,7 +411,7 @@ The <date> argument is a number representing the input date. The number is the n
 
 Note:
 DP_DAYOFYEAR and DP_WEEKDAY are not valid arguments in functions DateRoll and DateDiff.
-----------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -568,11 +569,11 @@ String literals are delimited by double quotes(").
 
 Note:
 The <member-name-specification> in Aggregate function should refer to an Accounts dimension member name.
------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
 
 Note:
 <enum_string> represents an enumerated string. It should be in the following format. The member should refer to a member of type text.
------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -599,7 +600,7 @@ Note:
 
 Note:
 The input <index> argument has range between -2147483647 and 2147483647.
------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -648,7 +649,7 @@ The input <index> argument has range between -2147483647 and 2147483647.
 
 Note:
 Only properties with boolean values can be used as <bool_primary>.
------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -748,7 +749,7 @@ Names used for calculated members cannot be the same as any names/aliases of dat
 
 Note:
 The last three alternatives in the above rule can be used only inside the DIMENSION PROPERTIES section.
------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
 
 Assume an axis has 2 dimensions, Product and Market. Using DIMENSION PROPERTIES Gen_number, [Product].level_number, the generation number will be present in the output for the members of both dimensions, whereas the level number will be present only for the members of the Product dimension.
 
@@ -768,7 +769,7 @@ returns all members of Product dimension except the top dimension member, [Produ
 
 Note:
 The above rule specifies string properties such as MEMBER_NAME, MEMBER_ALIAS.
------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -791,7 +792,7 @@ The above rule specifies string properties such as MEMBER_NAME, MEMBER_ALIAS.
 
 Note:
 The <dimension-name-specification> in <property_specification> should be an attribute dimension-name specification. The attribute dimension names are treated as properties of members from their corresponding base dimensions.
------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -862,7 +863,7 @@ The following rule describes the syntax for Essbase outline formulas in aggregat
 
 Note:
 The member name (or member names when multiple names are specified) in a NONEMPTYMEMBER directive should belong to the same dimension as the calculated member or formula member in which it is specified.
----------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
 
 
 
@@ -902,7 +903,7 @@ The member name (or member names when multiple names are specified) in a NONEMPT
 
 Note:
 Numbers can also be input in scientific notation (mantissa/exponent), using the E character.
----------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
 
 
 
