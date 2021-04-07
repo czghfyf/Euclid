@@ -9,21 +9,20 @@ extern int yyparse();
 
 /* declare tokens */
 %token NUMBER
-%token ADD SUB MUL DIV ABS
+%token ADD SUB MUL DIV
 %token OP CP
 %token EOL
 
 %%
 
 calclist: /* nothing */
-    | calclist exp EOL { printf("= %d\n> ", $2); }
-    | calclist EOL { printf("> "); } /* blank line or a comment */
+    | calclist exp EOL { printf("{{{ result = %d }}}\n", $2); }
+    | calclist EOL { printf(">>> \n"); } /* blank line or a comment */
 ;
 
 exp: factor
     | exp ADD exp { $$ = $1 + $3; }
     | exp SUB factor { $$ = $1 - $3; }
-    | exp ABS factor { $$ = $1 | $3; }
 ;
 
 factor: term
@@ -32,41 +31,35 @@ factor: term
 ;
 
 term: NUMBER
-    | ABS term { $$ = $2 >= 0? $2 : - $2; }
     | OP exp CP { $$ = $2; }
 ;
 %%
 int main()
 {
 
-    if (my_scan_string("60000000 + +7888\n") != 0) {
+    if (my_scan_string("60000000+7888\n") != 0) { // 60,007,888
         printf("error setting up an internal buffer\n");
-        // exit(1);
 		return 1;
     }
-
     yyparse();
     my_cleanup();
 
-    if (my_scan_string("-1000000 + -666\n321 + 5000000\n") != 0) {
+	// 999,334
+	// -30
+	// -998
+    if (my_scan_string("1000000-666 \n (23 / 6) + (0-(100002 -99999)* 11) \n\n\n\n 1 + (0 - 999) \n") != 0) {
         printf("error setting up an internal buffer\n");
-        // exit(1);
 		return 1;
     }
-
     yyparse();
-
     my_cleanup();
 
     return 0;
 
-
-    // printf("> "); 
-    // yyparse();
-    // return 0;
 }
 int yyerror(const char *s, ...)
 {
-	printf("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee\n");
-    return 999;
+	printf("[yy error] %s\n", s);
+    return -100;
 }
+
