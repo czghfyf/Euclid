@@ -1,0 +1,929 @@
+https://docs.oracle.com/cd/E57185_01/ESBTR/mdx_grammar_rules.html
+
+MDX Grammar Rules
+
+The following is a comprehensive view of the syntax for MDX in Essbase.
+In this document, the syntax for MDX is illustrated using BNF notation(https://docs.oracle.com/cd/E57185_01/ESBTR/mdx_bnf.html).
+
+
+
+
+[<with_section>]
+SELECT [<axis_specification>
+       [, <axis_specification>...]]
+[FROM [<cube_specification>]]
+[WHERE [<slicer_specification> [<dim_props>]]
+
+<cube_specification> ::= 
+       '[' <ident_or_string>.<ident_or_string> ']'
+     | <delim_ident>.<delim_ident>
+
+<delim_ident> ::= 
+       '[' <ident> ']' 
+     | <ident_or_string>
+
+<ident_or_string> ::=  
+       ' <ident> ' 
+     | <ident>
+	 
+	 
+	 
+	 
+Note:
+<ident> refers to a valid Essbase application/database name. In the cube specification, if there are two identifiers, the first one should be application name and the second one should be database name. For example, all of the following are valid identifiers:
+-------------------------------------------------------------------------------------------------------------------------
+
+Sample.Basic
+
+[Sample.Basic]
+
+[Sample].[Basic]
+
+'Sample'.'Basic'
+
+
+
+
+
+<axis_specification> ::= 
+        [NON EMPTY] <set> [<dim_props>] ON 
+        COLUMNS | ROWS | PAGES | CHAPTERS | 
+        SECTIONS | AXIS (<unsigned_integer>)
+
+<dim_props> ::= 
+        [DIMENSION] PROPERTIES <property> [, <property>...]
+
+<slicer_specification> ::= <set> | <tuple> | <member>
+
+
+
+
+Note:
+The cardinality of the <set> in the slicer should be 1.
+
+
+
+
+
+<member> ::= 
+        <member-name-specification>
+      | <member_value_expression>
+
+<member-name-specification> ::=
+
+
+
+
+A member name can be specified in the following ways:
+
+	1.	By specifying the actual name or the alias; for example, Cola, Actual, COGS, and [100].
+
+		If the member name starts with number or contains spaces, it should be within brackets; for example, [100]. Brackets are recommended for all member names, for clarity and code readability.
+
+		For attribute members, the long name (qualified to uniquely identify the member) should be used; for example, [Ounces_12] instead of just [12].
+
+	2.	By specifying dimension name or any one of the ancestor member names as a prefix to the member name; for example, [Product].[100-10] and [Diet].[100-10] This is a recommended practice for all member names, as it eliminates ambiguity and enables you to refer accurately to shared members.
+
+		Note:
+		Use only one ancestor in the qualification. Essbase returns an error if multiple ancestors are included. For example, [Market].[New York] is a valid name for New York, and so is [East].[New York]. However, [Market].[East].[New York] returns an error.
+		----------------------------------------------------------------------------------------------------------
+
+	3.	By specifying the name of a calculated member defined in the WITH section.
+
+	4.	For outlines that have duplicate member names enabled, see also MDX Syntax for Specifying Duplicate Member Names and Aliases.
+
+
+
+
+
+<member_value_expression> ::=
+        Parent ( <member> [,<hierarchy>] ) 
+           | <member>.Parent [(<hierarchy>)]     
+      | FirstChild ( <member> ) 
+           | <member>.FirstChild     
+      | LastChild ( <member> ) 
+           | <member>.LastChild      
+      | PrevMember ( <member> [,<layertype>] )
+           | <member>.PrevMember [( <layertype> ) ] 
+      | NextMember ( <member> [,<layertype>] )
+           | <member>.NextMember [( <layertype> ) ] 
+      | FirstSibling ( <member> [,<hierarchy>])
+           | <member>.FirstSibling [(<hierarchy>)]
+      | LastSibling ( <member> [,<hierarchy>])
+           | <member>.LastSibling [(<hierarchy>)]   
+      | Ancestor ( <member> , <layer> | <index> [,<hierarchy>] )
+      | Lead ( <member>, <index> [,<layertype>] [,<hierarchy>] )
+           | <member>.Lead ( <index> [,<layertype>] [,<hierarchy>] )   
+      | Lag  ( <member>, <index> [,<layertype>] [,<hierarchy>] )
+           | <member>.Lag  ( <index> [,<layertype>] [,<hierarchy>] )   
+      | CurrentAxisMember()
+      | CurrentMember ( <dim_hier> )
+           | <dim_hier>. CurrentMember  
+      | DefaultMember ( <dim_hier> )
+           | <dim_hier>. DefaultMember  
+      | OpeningPeriod ( [<layer> [,<member>]] )
+      | ClosingPeriod ( [<layer> [,<member>]] )
+      | Cousin (<member>, <member>)
+      | ParallelPeriod( [<layer>[, <index>[, <member> [,<hierarchy>]]]] )
+      | Item ( <tuple>, <index> ) 
+           | tuple[.Item] ( <index> ) 
+      | LinkMember ( <member>, <hierarchy> ) 
+           | member.LinkMember ( <hierarchy> )
+       | DateToMember (<date>, <dim_hier> [ ,<genlev>] )
+      | StrToMbr (<string_value_expr> [,<dimension>] [, MEMBER_NAMEONLY | <alias_table_name>])
+
+<dim_hier> ::= <dimension>
+
+<dimension> :: = 
+        <dimension-name-specification>
+      | Dimension ( <member> | <layer> )
+           | <member>.DIMENSION  
+           | <layer>.DIMENSION
+
+<dimension-name-specification> ::= 
+    Same as <member_name-specification> case 1. 
+    e.g. Product, [Product]
+        
+<hierarchy> ::=
+
+
+A hierarchy refers to a root member of an alternate hierarchy, which is always at 
+generation 2 of a dimension.  Member value expressions are not allowed as hierarchy 
+arguments.
+
+<layertype> ::= 
+        GENERATION | LEVEL
+
+<layer> ::= 
+        <layer-name-specification>
+      | Levels ( <dim_hier>, <index> )
+           | <dim_hier>.Levels ( <index> )      
+      | Generations ( <dim_hier>, <index> )
+           | <dim_hier>.Generations ( <index> ) 
+      | <member>.Generation
+      | <member>.Level
+
+<layer-name-specification> ::= 
+
+
+
+
+
+
+A layer name can be specified in the following ways:
+
+	1.	By specifying the generation or level names; for example, States or Regions.
+
+		The generation or level name can be within brackets; for example, [Regions]. Using brackets is recommended.
+
+	2.	By specifying the dimension name along with the generation or level name; for example, Market.Regions and [Market].[States] This naming convention is recommended.
+
+
+
+
+
+
+<tuple> ::= 
+        <member>
+      | ( <member> [,<member>].. )
+      | <tuple_value_expression>
+
+
+
+
+
+A tuple is a collection of member(s) with the restriction that no two members can be from the same dimension. For example, (Actual, Sales) is a tuple. (Actual, Budget) is not a tuple, as both members are from the same dimension.
+
+
+
+
+
+<tuple_value_expression> ::= 
+        CurrentTuple ( <set> )
+           | <set>.Current        
+      | Item ( <set>, <index> )
+           | <set>[.Item] (<index>) 
+
+
+
+
+
+A set is a collection of tuples where members in all tuples must be from the same dimensions and in the same order.
+
+For example, {(Actual, Sales), (Budget, COGS)} is a set.
+
+{(Actual, Sales), (COGS, [100])} is not a set because the second tuple has members from Scenario and Product dimensions, whereas the first tuple has members from Scenario and Measures dimensions.
+
+{(Actual, Sales). (COGS, Budget)} is not a set because the second tuple has members from Scenario and Measures dimensions, whereas the first tuple has members from Measures and Scenario dimensions (the order of dimensions is different).
+
+Note:
+The size of an input set to a function has range between 0 and 4294967295 tuples.
+------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+<set> ::= 
+        MemberRange ( <member>, <member> 
+                    [,<layertype>] [,<hierarchy>] )
+      | <member> : <member>  
+      | { <tuple>|<set> [, <tuple>|<set>].. }
+      | ( <set> )
+      | <set_value_expression>
+
+<set_value_expression> ::=
+      | Members ( <dim_hier> )
+           | <dim_hier>.Members 
+      | Members ( <layer> )
+           | <layer>.Members   
+      | Children ( <member> )
+           | <member>.Children  
+      | CrossJoin ( <set> , <set> )
+      | Union ( <set> , <set> [,ALL] )
+      | Intersect ( <set> , <set> [,ALL])
+      | Except ( <set> , <set> [,ALL])
+      | Extract ( <set> , <dim_hier> [, <dim_hier>].. )
+      | Head ( <set> [, <index>])
+      | Subset ( <set> , <index> [,index])
+      | Tail ( <set> [,index])
+      | Distinct ( <set> )
+      | Siblings ( <member> [, <selection_flags>, [INCLUDEMEMBER|EXCLUDEMEMBER]] ) 
+           | <member>.Siblings
+      | Descendants ( <member> , [{<layer>|<index>}[, <Desc_flags>]] )
+      | PeriodsToDate ( [<layer>[, <member> [,<hierarchy>]]] )
+      | LastPeriods ( <index>[, <member> [,<hierarchy>]] )
+      | xTD ( [<member>] )  
+            where xTD could be {HTD|YTD|STD|PTD|QTD|MTD|WTD|DTD}
+      | Hierarchize ( <set> [,POST] )
+      | Filter ( <set> , <search_condition> )
+      | Order ( <set>, <value_expression> [,BASC | BDESC] )
+      | TopCount ( <set> , <index> [,<numeric_value_expression>] )
+      | BottomCount ( <set> , <index> [,<numeric_value_expression>] )
+      | TopSum ( <set> , <numeric_value_expression> 
+                       , <numeric_value_expression> )
+      | BottomSum ( <set> , <numeric_value_expression> 
+                          , <numeric_value_expression> )
+      | TopPercent ( <set> , <percentage> , <numeric_value_expression> ) 
+      | BottomPercent ( <set> , <percentage> , <numeric_value_expression> )
+      | Generate ( <set> , <set> [, [ALL]] )
+      | DrilldownMember ( <set> , <set>[, RECURSIVE] )
+      | DrillupMember ( <set> , <set> )
+      | DrilldownByLayer ( <set> [, {<layer>|<index>] )
+           | DrilldownLevel ( <set> [, {<layer>|<index>] ) 
+      | DrillupByLayer ( <set> [, <layer>] )
+           | DrillupLevel ( <set>[, <layer>] ) 
+      | WithAttr ( <member> , <character_string_literal>, <value_expression> )
+      | WithAttrEx ( <member> , <character_string_literal>, <value_expression>, ANY, <tuple>|<member> [, <tuple>|<member>] )
+      | Attribute ( <member> )
+      | AttributeEx ( <member>, ANY, <tuple>|<member> [, <tuple>|<member>] )
+      | Uda ( <dimension> | <member> , <string_value_expression> )
+      | RelMemberRange ( <member>, <prevcount>, <nextcount>, 
+         [,<layertype>] [,<hierarchy>] )
+      | Ancestors ( <member>, <layer>|<index> )
+      | <conditional_expression>
+
+
+
+
+
+
+Note:
+<conditional_expression> is expected to return a <set> in the above production.
+
+
+
+
+
+
+<Desc_flags> ::= 
+        SELF 
+      | AFTER 
+      | BEFORE 
+      | BEFORE_AND_AFTER 
+      | SELF_AND_AFTER 
+      | SELF_AND_BEFORE 
+      | SELF_BEFORE_AFTER 
+      | LEAVES
+
+<selection_flags> ::=
+        LEFT
+      | RIGHT
+      | ALL
+
+<value_expression> ::= 
+        <numeric_value_expression>
+      | <string_value_expression>
+
+<numeric_value_expression> ::=
+        <term>
+      | <numeric_value_expression> + <term>
+      | <numeric_value_expression> - <term>
+
+<term> ::=
+        <factor>
+      | <term> * <factor>
+      | <term> / <factor>
+
+<factor> ::= 
+        [+ | -]<numeric_primary>
+
+<numeric_primary> ::=
+        <value_expr_primary>
+      | <numeric_value_function>
+      | <mathematical_function>
+      | <date_function>
+
+
+
+
+
+Note:
+The data type of <value_expr_primary> in the above production must be numeric.
+
+
+
+
+
+
+
+<base> ::= 
+        <numeric_value_expression>
+<power> ::= 
+        <numeric_value_expression>
+
+<mathematical_function> ::= 
+        Abs ( <numeric_value_expression> )
+      | Exp ( <numeric_value_expression> )
+      | Factorial ( <index> )
+      | Int ( <numeric_value_expression> )
+      | Ln ( <numeric_value_expression> )
+      | Log ( <numeric_value_expression> [, <base>] )
+      | Log10 ( <numeric_value_expression> )
+      | Mod ( <numeric_value_expression> , <numeric_value_expression> )
+      | Power ( <numeric_value_expression> , <power> )
+      | Remainder ( <numeric_value_expression> )
+      | Stddev ( <set> [,<numeric_value_expression> [,IncludeEmpty] ] )
+      | Stddevp ( <set> [,<numeric_value_expression> [,IncludeEmpty] ] )
+      | Round ( <numeric_value_expression> , <index> )
+      | Truncate ( <numeric_value_expression> )
+ 
+<date_function> ::=
+        DateRoll(<date>, <date_part>, <index>)
+      | DateDiff(<date>, <date>, <date_part>)
+      | DatePart(<date>, <date_part>)
+      | Today()
+      | TodateEx(<date_format_string>, <string>)
+      | GetFirstDate(<member>)
+      | GetLastDate(<member>)
+      | UnixDate(<numeric_value_expression>)
+      | GetFirstDay(<date>, <date_part>)
+      | GetLastDay(<date>, <date_part>)
+      | GetNextDay(<date>, <week-day-specification>, [0|1] )
+      | GetRoundDate(<date>, <date_part>)
+
+
+
+
+
+
+The <date> argument is a number representing the input date. The number is the number of seconds elapsed since midnight, January 1, 1970. To retrieve this number, use any of the following functions: Today(), TodateEx(), GetFirstDate(), GetLastDate().
+
+
+
+
+
+
+<date_part> ::=
+         DP_YEAR
+       | DP_QUARTER
+       | DP_MONTH
+       | DP_WEEK
+       | DP_DAY
+       | DP_DAYOFYEAR
+       | DP_WEEKDAY
+
+
+
+
+
+
+Note:
+DP_DAYOFYEAR and DP_WEEKDAY are not valid arguments in functions DateRoll and DateDiff.
+----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+<week-day-specification> ::=
+    1 | 2 | 3 | 4 | 5 | 6 | 7
+    e.g. 1 implying Sunday, 7 implying Saturday
+
+<date_format_string> ::=
+        "mon dd yyyy"
+      | "Month dd yyyy"
+      | "mm/dd/yy"
+      | "mm/dd/yyyy"
+      | "yy.mm.dd"
+      | "dd/mm/yy"
+      | "dd.mm.yy"
+      | "dd-mm-yy"
+      | "dd Month yy"
+      | "dd mon yy"
+      | "Month dd, yy"
+      | "mon dd, yy"
+      | "mm-dd-yy"
+      | "yy/mm/dd"
+      | "yymmdd"
+      | "dd Month yyyy"
+      | "dd mon yyyy"
+      | "yyyy-mm-dd"
+      | "yyyy/mm/dd"
+      | "Long format"
+      | "Short format"
+
+
+<string_value_expression> ::= 
+        <string_value_primary>
+      | FormatDate (<date>, <date_format_string>)
+      | Concat (<string_value_expression> [<, string_value_expression> ...])
+      | Left(<string_value_expression>, <length>)
+      | Right(<string_value_expression>, <length>)
+      | Substring(<string_value_expression>, <index> [, <index>])
+      | Upper(<string_value_expression>)
+      | Lower (<string_value_expression>)          
+      | RTrim(<string_value_expression>)
+      | LTrim(<string_value_expression>)
+      | NumToStr(<value_expr_primary>)
+      | EnumText(<textlistname> | <member>, <numeric_value_expression>)
+                  
+<value_expr_primary> ::=
+        <unsigned_numeric_literal> 
+      | ( <numeric_value_expression> )
+      | <tuple>[.RealValue]
+      | <member>[.RealValue]
+      | <tuple> [.Value]
+      | <member>[.Value]
+      | CellValue()
+      | <property>
+      | <conditional_expression>
+      | MISSING
+  
+<string_value_primary> ::=
+        <character_string_literal>
+      | <string_property>
+	  
+	  
+	  
+	  
+	  
+	  
+Notes
+<conditional_expression> is expected to return a numeric value in the above production.
+String literals are delimited by double quotes(").
+
+
+
+
+
+
+
+<conditional_expression> ::= 
+        <if_expression> 
+      | <case_expression> 
+      | CoalesceEmpty ( <numeric_value_expression>
+                      , <numeric_value_expression>)
+
+<case_expression> ::=   
+        <simple_case> | <searched_case>
+
+<if_expression> ::= 
+        IIF ( <search_condition>, <true_part>, <false_part> )
+<true_part> ::= 
+        <value_expression>  | <set>
+<false_part> ::= 
+        <value_expression> | <set>
+
+<simple_case> ::= 
+        Case <case_operand>
+             <simple_when_clause>...
+             [ <else_clause> ]
+        END
+
+<simple_when_clause> ::= 
+        WHEN <when_operand> 
+             THEN <result>
+<else_clause> ::= 
+        ELSE <value_expression> | <set>
+
+<case_operand> ::= 
+        <value_expression>
+<when_operand> ::= 
+        <value_expression>
+<result> ::= 
+        <value_expression> | <set>
+
+<searched_case> ::= 
+        Case
+             <searched_when_clause>...
+             [ <else_clause> ]
+        END
+
+<searched_when_clause> ::= 
+        WHEN <search_condition> 
+             THEN <result>
+
+<numeric_value_function> ::=
+        Avg ( <set> [, <numeric_value_expression>] [, IncludeEmpty] )
+      | Max ( <set> [, <numeric_value_expression>])
+      | Min ( <set> [, <numeric_value_expression>])
+      | Sum ( <set> [, <numeric_value_expression>])
+      | NonEmptyCount ( <set> [, <numeric_value_expression>])
+      | Count ( <set> [, IncludeEmpty] )
+      |  <dts-specification> ::= DTS (<dts-operation-specification>,<member>)
+         <dts-operation-specification> ::= HTD|YTD|STD|PTD|QTD|MTD|WTD|DTD
+      | Todate ( <string_value_expression> , <string_value_expression> )
+      | Ordinal (<layer>)
+      | Aggregate (<set> [,<member-name-specification>])
+      | Rank (<member_or_tuple>, <set> [,<numeric_value_expression> 
+                  [, <rank_flags>]])
+      | NTile (<member_or_tuple>, <set>, <index>, 
+                  <numeric_value_expression>)
+      | Percentile (<set>, <numeric_value_expression>, 
+                  <numeric_value_expression>)
+      | Median (<set>, <numeric_value_expression>)
+      | Len (<string_value_expression>)
+      | InStr (<index>, <string_value_expression>, 
+                  <string_value_expression>, <numeric_value_expression>)
+      | StrToNum (<string_value_expression>)
+      | EnumValue(<enum_string>)
+      | JulianDate(<date>)
+
+
+
+
+
+Note:
+The <member-name-specification> in Aggregate function should refer to an Accounts dimension member name.
+-----------------------------------------------------------------------------------------------------------------------
+
+Note:
+<enum_string> represents an enumerated string. It should be in the following format. The member should refer to a member of type text.
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+<enum_string> ::= 
+        <textlist-name-specification>.<character_string_literal> 
+      | <member>.<character_string_literal>
+<textlist-name-specification> ::= 
+    Same as <member_name-specification> case 1. The text list name specification should refer to the name of a text list object. 
+    e.g. AccountStatus, [AccountStatus]
+<member_or_tuple> ::=
+        <member>
+      | <tuple>
+
+<index> ::= 
+        <numeric_value_expression>
+
+
+
+
+
+
+Note:
+The input <index> argument has range between -2147483647 and 2147483647.
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+<percentage> ::= 
+        <numeric_value_expression>
+
+<search_condition> ::=
+        <bool_term>
+      | <search_condition> OR <bool_term>
+
+<bool_term> ::=
+        <bool_factor>
+      | <bool_term> AND <bool_factor>
+
+<bool_factor> ::=
+        <bool_primary>
+      | NOT <bool_primary>
+
+<bool_primary> ::= 
+        <value_expression> [=|>|<|<>|>=|<=] <value_expression>
+      | <property> IN <member>|<character_string_literal>
+      | <property>
+      | IsEmpty ( <value_expression> )
+      | ( <search_condition> )
+      | IsSibling(<member>,<member> [, INCLUDEMEMBER])
+      | IsLeaf(<member>)
+      | IsGeneration(<member>,<index>)
+      | IsLevel(<member>,<index>)
+      | IsAncestor(<member>,<member> [, INCLUDEMEMBER])
+      | IsChild(<member>,<member> [, INCLUDEMEMBER])
+      | IsUda (<member>, <string_value_expression>)
+      | IsAccType (<member>, <AcctTag>)
+      | Is ( <member> , <member> ) 
+           | <member> Is <member>
+      | IsValid (<member> | <tuple> | <set>  | <layer> | <property>)
+      | IsMatch (<string_value_expression>, <string_value_expression>, [,MATCH_CASE|IGNORE_CASE])
+      | Contains (<member_or_tuple>, <set>)
+
+
+
+
+
+
+Note:
+Only properties with boolean values can be used as <bool_primary>.
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+<AcctTag> ::= 
+        FIRST 
+      | LAST 
+      | AVERAGE
+      | EXPENSE
+      | TWO-PASS
+
+<rank_flags> ::=
+        ORDINALRANK
+      | DENSERANK
+      | PERCENTRANK
+          
+<with_section> ::=
+        WITH <frml_spec>
+
+<frml_spec> ::=
+        <single_frml_spec>
+      | <frml_spec> <single_frml_spec>
+
+<single_frml_spec> ::=
+        <set_spec>
+      | <perspective_specification>
+      | <member_specification>
+
+<set_spec> ::=
+        SET <set_name> AS ' <set> '
+
+<set_name> ::=
+
+
+
+
+
+
+
+
+The name of the set to be defined. The name cannot be same as any names/aliases of database members, generation/level names, or UDA names.
+
+
+
+
+
+
+
+<perspective_specification> ::=
+      PERSPECTIVE REALITY | <tuple> FOR <dimension-name-specification>
+
+<member_specification> ::= 
+        MEMBER <member_name> AS ' 
+                <nonempty_specification>
+                <numeric_value_expression> '
+        [, <solve_order_specification>]
+
+<member_name> ::= 
+        <dimension-name-specification>.<calculated member name>
+
+<calculated member name> ::= 
+
+
+
+
+
+
+
+
+Names used for calculated members cannot be the same as any names/aliases of database members, generation/level names, or UDA names.
+
+
+
+
+
+
+
+
+<solve_order_specification> ::= 
+        SOLVE_ORDER = <unsigned_integer>
+
+<property> ::= 
+        <member>.<property_specification>
+      | <dim_hier>.<property_specification>
+      | <property_specification>
+      | <property_expr_specification>
+
+
+
+
+
+
+
+Note:
+The last three alternatives in the above rule can be used only inside the DIMENSION PROPERTIES section.
+-----------------------------------------------------------------------------------------------------------------------
+
+Assume an axis has 2 dimensions, Product and Market. Using DIMENSION PROPERTIES Gen_number, [Product].level_number, the generation number will be present in the output for the members of both dimensions, whereas the level number will be present only for the members of the Product dimension.
+
+Within a value expression, [Product].Gen_number refers to the generation number of the member named [Product].
+
+[Product].CurrentMember.Gen_number refers to the generation number of the current member of the [Product] dimension.
+
+For example,
+
+Filter ([Product].Members, [Product].Gen_number >  1)
+returns an empty set. Product.Generation is 1, so the search condition fails for each tuple of [Product].Members.
+
+Filter ([Product].Members, [Product].CurrentMember.Gen_number >  1) 
+returns all members of Product dimension except the top dimension member, [Product].
+
+<string_property> ::= <member>.<property_specification>
+
+Note:
+The above rule specifies string properties such as MEMBER_NAME, MEMBER_ALIAS.
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+<property_specification> ::= 
+        MEMBER_NAME
+      | MEMBER_ALIAS
+      | GEN_NUMBER
+      | LEVEL_NUMBER
+      | <dimension-name-specification>
+      | <uda-specification>
+
+
+
+
+
+
+Note:
+The <dimension-name-specification> in <property_specification> should be an attribute dimension-name specification. The attribute dimension names are treated as properties of members from their corresponding base dimensions.
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+<uda-specification> ::=
+
+The <uda-specification> specifies a User Defined Attribute(UDA). UDA properties are Boolean-valued properties. A TRUE value indicates presence of a UDA for a member. For example,
+
+
+
+
+Filter (Market.Members, Market.CurrentMember.[Major Market])
+
+returns the Market dimension members tagged with "Major Market" UDA in the outline.
+
+
+
+
+
+
+
+
+
+<property_expr_specification> ::=
+PROPERTY_EXPR (   <dimension name>,
+                  <property_name>,
+                  <member_value_expression>,
+                  <display_name>)
+
+<property_name> ::= 
+     <property_specification>
+<display_name> ::= 
+     <character_string_literal>
+
+
+
+
+
+
+
+For more discussion of properties, see About MDX Properties(https://docs.oracle.com/cd/E57185_01/ESBTR/mdx_properties.html).
+
+The following rule describes the syntax for Essbase outline formulas in aggregate storage applications.
+
+
+
+
+
+
+<formula_specification> ::= <nonempty_specification>
+                            <numeric_value_expression>
+ 
+
+<nonempty_specification> ::=   NONEMPTYMEMBER <nonempty_member_list>
+                             | NONEMPTYTUPLE  ( <nonempty_member_list> )
+
+<nonempty_member_list> ::=  <nonempty_member_name>
+                          | <nonempty_member_name> [ , <nonempty_member_list> ]
+
+<nonempty_member_name>  ::=
+         An Essbase member name or a calculated member name (only when used in another calculated member).
+
+
+
+
+
+Note:
+The member name (or member names when multiple names are specified) in a NONEMPTYMEMBER directive should belong to the same dimension as the calculated member or formula member in which it is specified.
+---------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+<signed_numeric_literal> ::= 
+        [+|-] <unsigned_numeric_literal>
+
+<unsigned_numeric_literal> ::= 
+        <exact_numeric_literal>
+      | <approximate_numeric_literal>
+
+<exact_numeric_literal> ::= 
+        <unsigned_integer>[.<unsigned_integer>]
+      | <unsigned_integer>.
+      | .<unsigned_integer>
+
+<unsigned_integer> ::= 
+        {<digit>}...
+
+<approximate_numeric_literal> ::= 
+        <mantissa>E<exponent>
+
+<mantissa> ::= 
+        < exact_numeric_literal>
+
+<exponent> ::= 
+       [<sign>]<unsigned_integer>
+
+<digit> ::= 
+       0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+
+
+
+
+
+Note:
+Numbers can also be input in scientific notation (mantissa/exponent), using the E character.
+---------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+<character_string_literal> ::= 
+       <quote>[<character_representation>...] <quote>
+
+<character_representation> ::= 
+       <nonquote_character> 
+     | <quote_symbol>
+
+<nonquote_character> ::= 
+       Any character in the character set other than <quote>
+
+<quote_symbol> ::= 
+       <quote> <quote>
+
+<quote>  ::= "
+
+
+The following is the syntax for Format Strings in Essbase:
+MdxFormat( string_value_expression )
