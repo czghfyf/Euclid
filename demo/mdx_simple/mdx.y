@@ -32,55 +32,68 @@ extern int yyparse();
 
 mdx:
 	select_statement {
+		printf("<mdx> : <select_statement>\n");
 	}
 ;
 
 select_statement:
 	SELECT axises_specification FROM cube_specification {
+		printf("<select_statement> : select <axises_specification> from <cube_specification>\n");
 	}
 ;
 
 axises_specification:
 	axis_specification {
+		printf("<axises_specification> : <axis_specification>\n");
 	}
   |	axises_specification COMMA axis_specification {
+		printf("<axises_specification> : <axises_specification> , <axis_specification>\n");
 	}
 ;
 
 axis_specification:
 	CURLY_BRACKET_L member_list CURLY_BRACKET_R ON coordinate {
+		printf("<axis_specification> : { <member_list> } on <coordinate>\n");
 	}
 ;
 
 member_list:
 	block_list {
+		printf("<member_list> : <block_list>\n");
 	}
   |	member_list COMMA block_list {
+		printf("<member_list> : <member_list> , <block_list>\n");
 	}
 ;
 
 block_list:
 	block {
+		printf("<block_list> : <block>\n");
 	}
   |	block_list DOT block {
+		printf("<block_list> : <block_list> . <block>\n");
 	}
 ;
 
 block:
 	SQUARE_BRACKET_L SIMPLE_STR SQUARE_BRACKET_R {
+		printf("<block> : [ token-SIMPLE_STR ]\n");
 	}
 ;
 	
 
 coordinate:
 	COLUMNS {
+		printf("<coordinate> : columns\n");
 	}
   |	ROWS {
+		printf("<coordinate> : rows\n");
 	}
 ;
 
 cube_specification:
 	block {
+		printf("<cube_specification> : <block>\n");
 	}
 ;
 
@@ -88,21 +101,12 @@ cube_specification:
 
 int main(int argc, char *argv[])
 {
+	char *mdx = "select { [d0].[m0], [aaa].[bbb] } on rows,\n{ [dX] } on columns\nfrom [testCube000]";
 
-    if (my_scan_string("60000000+7888\n") != 0) { // 60,007,888
-        printf("error setting up an internal buffer\n");
-		return 1;
-    }
-    yyparse();
-    my_cleanup();
+	printf("%s\n", mdx);
 
-	// 999,334
-	// -30
-	// -998
-    if (my_scan_string("1000000-666 \n (23 / 6) + (0-(100002 -99999)* 11) \n\n\n\n 1 + (0 - 999) \n") != 0) {
-        printf("error setting up an internal buffer\n");
-		return 1;
-    }
+	my_scan_string(mdx);
+
     yyparse();
     my_cleanup();
 
@@ -112,7 +116,7 @@ int main(int argc, char *argv[])
 
 int yyerror(const char *s, ...)
 {
-	printf("[yy error] %s\n", s);
+	printf("[yy error] <%s>\n", s);
     return -100;
 }
 

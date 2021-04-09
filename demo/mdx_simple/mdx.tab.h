@@ -45,14 +45,18 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    NUMBER = 258,
-    ADD = 259,
-    SUB = 260,
-    MUL = 261,
-    DIV = 262,
-    OP = 263,
-    CP = 264,
-    EOL = 265
+    SELECT = 258,
+    FROM = 259,
+    ON = 260,
+    COLUMNS = 261,
+    ROWS = 262,
+    DOT = 263,
+    COMMA = 264,
+    SQUARE_BRACKET_L = 265,
+    SQUARE_BRACKET_R = 266,
+    CURLY_BRACKET_L = 267,
+    CURLY_BRACKET_R = 268,
+    SIMPLE_STR = 269
   };
 #endif
 

@@ -6,24 +6,24 @@ extern int yyerror(const char *, ...);
 %}
 
 %%
-"+"	{ return ADD; }
-"-"	{ return SUB; }
-"*"	{ return MUL; }
-"/"	{ return DIV; }
-"(" { return OP; }
-")"	{ return CP; }
-[0-9]+	{ yylval = atoi(yytext); return NUMBER; }
-\n     	{ return EOL; }
-"//".*
-[ \t]	{ ; /* ignore white space */ }
-.		{ yyerror("Mystery character %c\n", *yytext); }
+select	{ return SELECT; }
+from	{ return FROM; }
+on		{ return ON; }
+columns	{ return COLUMNS; }
+rows	{ return ROWS; }
+[a-zA-Z0-9]+	{ return SIMPLE_STR; }
+"."	{ return DOT; }
+","	{ return COMMA; }
+"["	{ return SQUARE_BRACKET_L; }
+"]"	{ return SQUARE_BRACKET_R; }
+"{" { return CURLY_BRACKET_L; }
+"}"	{ return CURLY_BRACKET_R; }
+[ \n\t]+	{ /* ignore white space */}
+.	{ printf("<:%s:>", yytext); }
 %%
 static YY_BUFFER_STATE my_string_buffer;
 
 int my_scan_string(const char *s) {
-
-	printf("---------------------------------------------------sizeof(YY_BUFFER_STATE)  = %d\n", sizeof(YY_BUFFER_STATE));
-	printf("---------------------------------------------------sizeof(my_string_buffer) = %d\n", sizeof(my_string_buffer));
 
     // insist on cleaning up any existing buffer before setting up a new one
 	if (my_string_buffer != NULL)
