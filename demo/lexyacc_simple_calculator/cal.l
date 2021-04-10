@@ -10,7 +10,11 @@ extern int yyerror(const char *, ...);
 "/"	{ return DIV; }
 "(" { return OP; }
 ")" { return CP; }
-[0-9]+ { yylval = atoi(yytext); return NUMBER; }
+[0-9]+ { 
+	yylval = atoi(yytext); 
+	// yylval = 100;
+	return NUMBER; 
+}
 
 \n      { return EOL; }
 [ \t]   { /* ignore white space */ }

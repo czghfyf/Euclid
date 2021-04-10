@@ -756,30 +756,34 @@ YY_RULE_SETUP
 case 7:
 YY_RULE_SETUP
 #line 13 "cal.l"
-{ yylval = atoi(yytext); return NUMBER; }
+{ 
+	yylval = atoi(yytext); 
+	// yylval = 100;
+	return NUMBER; 
+}
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 15 "cal.l"
+#line 19 "cal.l"
 { return EOL; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 16 "cal.l"
+#line 20 "cal.l"
 { /* ignore white space */ }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 17 "cal.l"
+#line 21 "cal.l"
 { yyerror("Mystery character %c\n", *yytext); }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 18 "cal.l"
+#line 22 "cal.l"
 ECHO;
 	YY_BREAK
-#line 783 "lex.yy.c"
+#line 787 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1773,7 +1777,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 18 "cal.l"
+#line 22 "cal.l"
 
 
 
