@@ -1,0 +1,41 @@
+create dimension [dimension name];
+
+
+create members { [member 1], [member 1].[m 1-1], [member 1].[m 1-1].[m 1-1-1], [member 1].[m 1-1].[m 1-1-2] }
+on dimension [dimension name];
+
+
+build cube [cube name] {
+	[dimension name] role [dimension role name],
+	[dimension name] role [dimension role name],
+	[dimension name],
+	[dimension name],
+	[dimension name],
+	[dimension name]
+} measures {
+	[measure dimension member],
+	[measure dimension member],
+	[measure dimension member],
+	[measure dimension member]
+};
+
+
+insert cube [cube name] {
+  (	[dimension or role name].[member name].[member name].[member name].[member name],
+	[dimension or role name].[member name].[member name].[member name].[member name],
+	[dimension or role name].[member name].[member name].[member name].[member name],
+	[dimension or role name].[member name].[member name].[member name].[member name],
+	[dimension or role name].[member name].[member name].[member name].[member name] value 666.88 ),
+  (	[dimension or role name].[member name].[member name].[member name].[member name],
+	[dimension or role name].[member name].[member name].[member name].[member name],
+	[dimension or role name].[member name].[member name].[member name].[member name],
+	[dimension or role name].[member name].[member name].[member name].[member name],
+	[dimension or role name].[member name].[member name].[member name].[member name] value 666.88 ),
+  (	[dimension or role name].[member name].[member name].[member name].[member name],
+	[dimension or role name].[member name].[member name].[member name].[member name],
+	[dimension or role name].[member name].[member name].[member name].[member name],
+	[dimension or role name].[member name].[member name].[member name].[member name],
+	[dimension or role name].[member name].[member name].[member name].[member name] value 666.88 )
+};
+
+
