@@ -5,6 +5,10 @@
 
 %%
 
+^[^ \t\n]+	{
+	printf("^^^^^^ %s\n", yytext);
+}
+
 [^ \t\n]+ {
 	printf(">>> %s\n", yytext);
 }
