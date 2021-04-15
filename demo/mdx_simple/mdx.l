@@ -6,20 +6,60 @@ extern int yyerror(const char *, ...);
 %}
 
 %%
-select	{ return SELECT; }
-from	{ return FROM; }
-on		{ return ON; }
-columns	{ return COLUMNS; }
-rows	{ return ROWS; }
-[a-zA-Z0-9]+	{ return SIMPLE_STR; }
-"."	{ return DOT; }
-","	{ return COMMA; }
-"["	{ return SQUARE_BRACKET_L; }
-"]"	{ return SQUARE_BRACKET_R; }
-"{" { return CURLY_BRACKET_L; }
-"}"	{ return CURLY_BRACKET_R; }
+select	{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return SELECT; 
+}
+from	{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return FROM; 
+}
+on	{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return ON; 
+}
+columns	{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return COLUMNS; 
+}
+rows	{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return ROWS; 
+}
+[a-zA-Z0-9]+	{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return SIMPLE_STR; 
+}
+"."	{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return DOT; 
+}
+","	{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return COMMA; 
+}
+"["	{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return SQUARE_BRACKET_L; 
+}
+"]"	{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return SQUARE_BRACKET_R; 
+}
+"{" 	{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return CURLY_BRACKET_L; 
+}
+"}"	{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return CURLY_BRACKET_R; 
+}
+
 [ \n\t]+	{ /* ignore white space */}
-.	{ printf("<:%s:>", yytext); }
+
+.	{ 
+	printf("<:%s:>", yytext); 
+}
 %%
 static YY_BUFFER_STATE my_string_buffer;
 

@@ -745,80 +745,118 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 9 "mdx.l"
-{ return SELECT; }
+{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return SELECT; 
+}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 10 "mdx.l"
-{ return FROM; }
+#line 13 "mdx.l"
+{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return FROM; 
+}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 11 "mdx.l"
-{ return ON; }
+#line 17 "mdx.l"
+{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return ON; 
+}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 12 "mdx.l"
-{ return COLUMNS; }
+#line 21 "mdx.l"
+{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return COLUMNS; 
+}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 13 "mdx.l"
-{ return ROWS; }
+#line 25 "mdx.l"
+{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return ROWS; 
+}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 14 "mdx.l"
-{ return SIMPLE_STR; }
+#line 29 "mdx.l"
+{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return SIMPLE_STR; 
+}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 15 "mdx.l"
-{ return DOT; }
+#line 33 "mdx.l"
+{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return DOT; 
+}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 16 "mdx.l"
-{ return COMMA; }
+#line 37 "mdx.l"
+{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return COMMA; 
+}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 17 "mdx.l"
-{ return SQUARE_BRACKET_L; }
+#line 41 "mdx.l"
+{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return SQUARE_BRACKET_L; 
+}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 18 "mdx.l"
-{ return SQUARE_BRACKET_R; }
+#line 45 "mdx.l"
+{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return SQUARE_BRACKET_R; 
+}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 19 "mdx.l"
-{ return CURLY_BRACKET_L; }
+#line 49 "mdx.l"
+{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return CURLY_BRACKET_L; 
+}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 20 "mdx.l"
-{ return CURLY_BRACKET_R; }
+#line 53 "mdx.l"
+{ 
+	printf("-------> token yytext[%s] yyleng[%d]\n", yytext, yyleng);
+	return CURLY_BRACKET_R; 
+}
 	YY_BREAK
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 21 "mdx.l"
+#line 58 "mdx.l"
 { /* ignore white space */}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 22 "mdx.l"
-{ printf("<:%s:>", yytext); }
+#line 60 "mdx.l"
+{ 
+	printf("<:%s:>", yytext); 
+}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 23 "mdx.l"
+#line 63 "mdx.l"
 ECHO;
 	YY_BREAK
-#line 822 "lex.yy.c"
+#line 860 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1812,7 +1850,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 23 "mdx.l"
+#line 63 "mdx.l"
 
 
 static YY_BUFFER_STATE my_string_buffer;
