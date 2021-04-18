@@ -65,13 +65,17 @@
 #line 9 "loop.y" /* yacc.c:339  */
 
 #include <stdio.h>
+#include <time.h>
 int yyerror(const char *, ...);
+
+void now_time();
+
 extern int yylex();
 extern int yyparse();
 
 int switch_print = 90999;
 
-#line 75 "loop.tab.c" /* yacc.c:339  */
+#line 79 "loop.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -137,7 +141,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 141 "loop.tab.c" /* yacc.c:358  */
+#line 145 "loop.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -435,8 +439,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    36,    36,    43,    50,    54,    61,    68,    72,    79,
-      83,    90,    98,   102,   109
+       0,    40,    40,    47,    54,    58,    65,    72,    76,    83,
+      87,    94,   102,   106,   113
 };
 #endif
 
@@ -1216,124 +1220,124 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 36 "loop.y" /* yacc.c:1646  */
+#line 40 "loop.y" /* yacc.c:1646  */
     {
 		if (switch_print)
 		printf("<mdx> : <select_statement>\n");
 	}
-#line 1225 "loop.tab.c" /* yacc.c:1646  */
+#line 1229 "loop.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 43 "loop.y" /* yacc.c:1646  */
+#line 47 "loop.y" /* yacc.c:1646  */
     {
 		if (switch_print)
 		printf("<select_statement> : select <axises_specification> from <cube_specification>\n");
 	}
-#line 1234 "loop.tab.c" /* yacc.c:1646  */
+#line 1238 "loop.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 50 "loop.y" /* yacc.c:1646  */
+#line 54 "loop.y" /* yacc.c:1646  */
     {
 		if (switch_print)
 		printf("<axises_specification> : <axis_specification>\n");
 	}
-#line 1243 "loop.tab.c" /* yacc.c:1646  */
+#line 1247 "loop.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 54 "loop.y" /* yacc.c:1646  */
+#line 58 "loop.y" /* yacc.c:1646  */
     {
 		if (switch_print)
 		printf("<axises_specification> : <axises_specification> , <axis_specification>\n");
 	}
-#line 1252 "loop.tab.c" /* yacc.c:1646  */
+#line 1256 "loop.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 61 "loop.y" /* yacc.c:1646  */
+#line 65 "loop.y" /* yacc.c:1646  */
     {
 		if (switch_print)
 		printf("<axis_specification> : { <member_list> } on <coordinate>\n");
 	}
-#line 1261 "loop.tab.c" /* yacc.c:1646  */
+#line 1265 "loop.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 68 "loop.y" /* yacc.c:1646  */
+#line 72 "loop.y" /* yacc.c:1646  */
     {
 		if (switch_print)
 		printf("<member_list> : <block_list>\n");
 	}
-#line 1270 "loop.tab.c" /* yacc.c:1646  */
+#line 1274 "loop.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 72 "loop.y" /* yacc.c:1646  */
+#line 76 "loop.y" /* yacc.c:1646  */
     {
 		if (switch_print)
 		printf("<member_list> : <member_list> , <block_list>\n");
 	}
-#line 1279 "loop.tab.c" /* yacc.c:1646  */
+#line 1283 "loop.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 79 "loop.y" /* yacc.c:1646  */
+#line 83 "loop.y" /* yacc.c:1646  */
     {
 		if (switch_print)
 		printf("<block_list> : <block>\n");
 	}
-#line 1288 "loop.tab.c" /* yacc.c:1646  */
+#line 1292 "loop.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 83 "loop.y" /* yacc.c:1646  */
+#line 87 "loop.y" /* yacc.c:1646  */
     {
 		if (switch_print)
 		printf("<block_list> : <block_list> . <block>\n");
 	}
-#line 1297 "loop.tab.c" /* yacc.c:1646  */
+#line 1301 "loop.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 90 "loop.y" /* yacc.c:1646  */
+#line 94 "loop.y" /* yacc.c:1646  */
     {
 		if (switch_print)
 		printf("<block> : [ token-SIMPLE_STR ]\n");
 	}
-#line 1306 "loop.tab.c" /* yacc.c:1646  */
+#line 1310 "loop.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 98 "loop.y" /* yacc.c:1646  */
+#line 102 "loop.y" /* yacc.c:1646  */
     {
 		if (switch_print)
 		printf("<coordinate> : columns\n");
 	}
-#line 1315 "loop.tab.c" /* yacc.c:1646  */
+#line 1319 "loop.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 102 "loop.y" /* yacc.c:1646  */
+#line 106 "loop.y" /* yacc.c:1646  */
     {
 		if (switch_print)
 		printf("<coordinate> : rows\n");
 	}
-#line 1324 "loop.tab.c" /* yacc.c:1646  */
+#line 1328 "loop.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 109 "loop.y" /* yacc.c:1646  */
+#line 113 "loop.y" /* yacc.c:1646  */
     {
 		if (switch_print)
 		printf("<cube_specification> : <block>\n");
 	}
-#line 1333 "loop.tab.c" /* yacc.c:1646  */
+#line 1337 "loop.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1337 "loop.tab.c" /* yacc.c:1646  */
+#line 1341 "loop.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1561,7 +1565,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 115 "loop.y" /* yacc.c:1906  */
+#line 119 "loop.y" /* yacc.c:1906  */
 
 
 int main(int argc, char *argv[])
@@ -1572,9 +1576,10 @@ int main(int argc, char *argv[])
 
 	unsigned int i;
 	for (i = 0; i < 4294967295; i++) {
-		if (i % 1000 == 0) {
+		if (i % 100000 == 0) {
 			switch_print = 1;
 			printf("------------------------------------------------------- %d\n", i);
+			now_time();
 		}
 		my_scan_string(mdx);
 
@@ -1594,5 +1599,22 @@ int yyerror(const char *s, ...)
 {
 	printf("[yy error] <%s>\n", s);
     return -100;
+}
+
+void now_time()
+{
+  time_t tmpcal_ptr;
+  struct tm *tmp_ptr = NULL;
+  time (&tmpcal_ptr);
+  // printf ("tmpcal_ptr=%d\n", tmpcal_ptr);
+  tmp_ptr = gmtime (&tmpcal_ptr);
+  // printf ("after gmtime, the time is:%d:%d:%d\n", tmp_ptr->tm_hour,
+  //    tmp_ptr->tm_min, tmp_ptr->tm_sec);
+  tmp_ptr = localtime (&tmpcal_ptr);
+  printf ("after localtime, the time is:%d.%d.%d ", (1900 + tmp_ptr->tm_year),
+      (1 + tmp_ptr->tm_mon), tmp_ptr->tm_mday);
+  printf ("%d:%d:%d\n", tmp_ptr->tm_hour, tmp_ptr->tm_min, tmp_ptr->tm_sec);
+
+
 }
 

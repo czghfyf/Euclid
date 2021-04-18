@@ -8,7 +8,11 @@ from [Cube000]
 */
 %{
 #include <stdio.h>
+#include <time.h>
 int yyerror(const char *, ...);
+
+void now_time();
+
 extern int yylex();
 extern int yyparse();
 
@@ -122,9 +126,10 @@ int main(int argc, char *argv[])
 
 	unsigned int i;
 	for (i = 0; i < 4294967295; i++) {
-		if (i % 1000 == 0) {
+		if (i % 100000 == 0) {
 			switch_print = 1;
 			printf("------------------------------------------------------- %d\n", i);
+			now_time();
 		}
 		my_scan_string(mdx);
 
@@ -144,5 +149,22 @@ int yyerror(const char *s, ...)
 {
 	printf("[yy error] <%s>\n", s);
     return -100;
+}
+
+void now_time()
+{
+  time_t tmpcal_ptr;
+  struct tm *tmp_ptr = NULL;
+  time (&tmpcal_ptr);
+  // printf ("tmpcal_ptr=%d\n", tmpcal_ptr);
+  tmp_ptr = gmtime (&tmpcal_ptr);
+  // printf ("after gmtime, the time is:%d:%d:%d\n", tmp_ptr->tm_hour,
+  //    tmp_ptr->tm_min, tmp_ptr->tm_sec);
+  tmp_ptr = localtime (&tmpcal_ptr);
+  printf ("after localtime, the time is:%d.%d.%d ", (1900 + tmp_ptr->tm_year),
+      (1 + tmp_ptr->tm_mon), tmp_ptr->tm_mday);
+  printf ("%d:%d:%d\n", tmp_ptr->tm_hour, tmp_ptr->tm_min, tmp_ptr->tm_sec);
+
+
 }
 
