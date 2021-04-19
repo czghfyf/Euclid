@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
 
 	unsigned int i;
 	for (i = 0; i < 4294967295; i++) {
-		if (i % 100000 == 0) {
+		if (i % 1000000 == 0) {
 			switch_print = 1;
 			printf("------------------------------------------------------- %d\n", i);
 			now_time();
