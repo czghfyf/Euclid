@@ -9,7 +9,8 @@
 #include <fcntl.h>
 #include <sys/shm.h>
 
-#define MYPORT  8887
+// #define MYPORT  8887
+#define MYPORT  8760
 #define BUFFER_SIZE 1024
 
 int
@@ -41,7 +42,8 @@ main ()
       if (strcmp (sendbuf, "exit\n") == 0)
 	break;
       recv (sock_cli, recvbuf, sizeof (recvbuf), 0);	///接收
-      fputs (recvbuf, stdout);
+//      fputs (recvbuf, stdout);
+		printf("from server: %s\n", recvbuf);
 
       memset (sendbuf, 0, sizeof (sendbuf));
       memset (recvbuf, 0, sizeof (recvbuf));
