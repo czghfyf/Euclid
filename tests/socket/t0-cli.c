@@ -43,7 +43,7 @@ main ()
 	break;
       recv (sock_cli, recvbuf, sizeof (recvbuf), 0);	///接收
 //      fputs (recvbuf, stdout);
-		printf("from server: %s\n", recvbuf);
+      printf ("from server: %s\n", recvbuf);
 
       memset (sendbuf, 0, sizeof (sendbuf));
       memset (recvbuf, 0, sizeof (recvbuf));
