@@ -68,12 +68,13 @@ cli_thread_startup (void *addr)
       memset (buffer, 0, sizeof (buffer));
       int len = recv (cli_conn, buffer, sizeof (buffer), 0);
 //      printf ("len[%d] = %d\n", cli_conn, len);
-      if (len < 1){
-		printf("client [%d] disconnect.\n", cli_conn);
-	break;
-}
+      if (len < 1)
+	{
+	  printf ("client [%d] disconnect.\n", cli_conn);
+	  break;
+	}
       printf ("from client[%d]:\n%s\n", cli_conn, buffer);
-      send (cli_conn, "done", strlen("done"), 0);
+      send (cli_conn, "done", strlen ("done"), 0);
     }
   close (cli_conn);
 }
