@@ -13,7 +13,7 @@
 #define BUFFER_SIZE 1024
 
 int
-main (int argc,char *argv[])
+main (int argc, char *argv[])
 {
   int sock_cli = socket (AF_INET, SOCK_STREAM, 0);
 
