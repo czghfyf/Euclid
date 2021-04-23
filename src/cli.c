@@ -1,13 +1,7 @@
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <stdio.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
-#include <unistd.h>
 #include <string.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <sys/shm.h>
 
 #define MYPORT  8760
 #define BUFFER_SIZE 1024
@@ -15,6 +9,36 @@
 int
 main (int argc, char *argv[])
 {
+  if (argc < 2)
+    {
+      printf ("Please specify a command file.\n");
+      return 1;
+    }
+
+  FILE *fp = fopen (argv[1], "r");
+  if (fp == 0)
+    {
+      printf ("Failed to read file[%s].\n", argv[1]);
+      return 1;
+    }
+
+  char buff[1024];
+
+  char statement[1024 * 256];	// 256k
+
+  while (1)
+    {
+
+      memset (buff, 0, sizeof (buff));
+      if (fgets (buff, sizeof (buff), fp) == 0)
+	{
+	  break;
+	}
+
+      strcat (statement, buff);
+    }
+  fclose (fp);
+
   int sock_cli = socket (AF_INET, SOCK_STREAM, 0);
 
   struct sockaddr_in servaddr;
@@ -27,26 +51,13 @@ main (int argc, char *argv[])
       0)
     {
       perror ("connect");
-      exit (1);
+      return 1;
     }
 
-  char sendbuf[BUFFER_SIZE];
-  char recvbuf[BUFFER_SIZE];
-  while (fgets (sendbuf, sizeof (sendbuf), stdin) != NULL)
-    {
-      send (sock_cli, sendbuf, strlen (sendbuf), 0);
-
-      if (strcmp (sendbuf, "exit\n") == 0)
-	break;
-
-      recv (sock_cli, recvbuf, sizeof (recvbuf), 0);
-
-      printf ("from server: %s\n", recvbuf);
-
-      memset (sendbuf, 0, sizeof (sendbuf));
-      memset (recvbuf, 0, sizeof (recvbuf));
-    }
+  send (sock_cli, statement, strlen (statement), 0);
 
   close (sock_cli);
+
   return 0;
+
 }

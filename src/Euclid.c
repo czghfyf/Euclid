@@ -55,7 +55,7 @@ main (int argc, char *argv[])
 static void *cli_thread_startup(void *addr)
 {
 	int cli_conn = *((int *) addr);
-	char buffer[1024];
+	char buffer[1024 * 512]; // 512k
 
   while (1)
     {
