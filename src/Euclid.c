@@ -74,6 +74,14 @@ cli_thread_startup (void *addr)
 	  break;
 	}
       printf ("from client[%d]:\n%s\n", cli_conn, buffer);
+
+
+		// TODO Copy the command statement, and hand it over to the command processor for processing.
+		char *command_stat = malloc(strlen(buffer));
+		memcpy(command_stat, buffer, strlen(buffer));
+		free(command_stat);
+
+
       send (cli_conn, "done", strlen ("done"), 0);
     }
   close (cli_conn);
