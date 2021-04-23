@@ -34,21 +34,25 @@ main (int argc, char *argv[])
     {
       struct sockaddr_in client_addr;
 
-      // todo what is socklen_t ?
+      // TODO what is socklen_t ?
       socklen_t len = sizeof (client_addr);
+
       int cli_conn =
 	accept (server_sockfd, (struct sockaddr *) &client_addr, &len);
+
       if (cli_conn < 0)
 	{
 	  printf ("error accept failed.\n");
 	  continue;
 	}
-      printf ("accept client[%d] success.\n", cli_conn);
+
+      printf ("client[%d] connection succeeded.\n", cli_conn);
 
       pthread_t thread_id;
       pthread_create (&thread_id, NULL, cli_thread_startup, &cli_conn);
       pthread_detach (thread_id);
     }
+
   close (server_sockfd);
   return 0;
 }
@@ -63,14 +67,13 @@ cli_thread_startup (void *addr)
     {
       memset (buffer, 0, sizeof (buffer));
       int len = recv (cli_conn, buffer, sizeof (buffer), 0);
-      printf ("len[%d] = %d\n", cli_conn, len);
-      if (len < 1)
+//      printf ("len[%d] = %d\n", cli_conn, len);
+      if (len < 1){
+		printf("client [%d] disconnect.\n", cli_conn);
 	break;
-
-
-
-      printf ("from client[%d]: %s\n", cli_conn, buffer);
-      send (cli_conn, buffer, len, 0);
+}
+      printf ("from client[%d]:\n%s\n", cli_conn, buffer);
+      send (cli_conn, "done", strlen("done"), 0);
     }
   close (cli_conn);
 }

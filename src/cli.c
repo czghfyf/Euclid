@@ -54,7 +54,7 @@ main (int argc, char *argv[])
       return 1;
     }
 
-  send (sock_cli, statement, strlen (statement), 0);
+  send (sock_cli, statement, strlen (statement) - 1, 0);
 
   close (sock_cli);
 
