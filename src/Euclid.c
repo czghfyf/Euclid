@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "command-processor.h"
+
 static void *cli_thread_startup (void *addr);
 
 int
@@ -79,8 +81,7 @@ cli_thread_startup (void *addr)
 		// TODO Copy the command statement, and hand it over to the command processor for processing.
 		char *command_stat = malloc(strlen(buffer));
 		memcpy(command_stat, buffer, strlen(buffer));
-		free(command_stat);
-
+		process_command(command_stat);
 
       send (cli_conn, "done", strlen ("done"), 0);
     }
