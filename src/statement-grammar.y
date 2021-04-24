@@ -28,7 +28,7 @@ create_dimension:
 
 %%
 
-int main(int argc, char *argv[])
+int _main(int argc, char *argv[])
 {
 	char *ddl = "create dimension [China region]";
 	scan_comm_stat(ddl);
