@@ -13,6 +13,9 @@ src/euclid
 src/cli
 # tests/
 temp/
+*.yy.c
+*.tab.h
+*.tab.c
 
 
 # Log file
