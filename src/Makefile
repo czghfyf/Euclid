@@ -19,3 +19,13 @@ yacc-bison.o: statement-grammar.tab.c statement-grammar.tab.h
 
 statement-grammar.tab.c statement-grammar.tab.h: statement-grammar.y
 	bison -d statement-grammar.y
+
+clean:
+	rm -f *.c~
+	rm -f *.out
+	rm -f euclid
+	rm -f cli
+	rm -f *.o
+	rm -f lex.yy.c
+	rm -f *.tab.h
+	rm -f *.tab.c
