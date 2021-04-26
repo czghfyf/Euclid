@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "command-processor.h"
+#include "cfg.h"
 
 static void *cli_thread_startup (void *addr);
 
@@ -15,7 +16,7 @@ main (int argc, char *argv[])
   struct sockaddr_in server_sockaddr;
   memset (&server_sockaddr, 0, sizeof (server_sockaddr));
   server_sockaddr.sin_family = AF_INET;
-  server_sockaddr.sin_port = htons (8760);
+  server_sockaddr.sin_port = htons (get_cfg() -> port);
   server_sockaddr.sin_addr.s_addr = htonl (INADDR_ANY);
 
   if (bind (server_sockfd,
