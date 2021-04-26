@@ -1,5 +1,6 @@
-euclid: Euclid.o comm-proc.o yacc-bison.o lex-flex.o
+euclid cli: Euclid.o comm-proc.o yacc-bison.o lex-flex.o cli.c
 	gcc Euclid.o comm-proc.o yacc-bison.o lex-flex.o -lfl -lpthread -o euclid
+	gcc cli.c -o cli
 
 Euclid.o: Euclid.c command-processor.h
 	gcc -c Euclid.c
