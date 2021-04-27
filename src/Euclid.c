@@ -11,6 +11,8 @@ static void *cli_thread_startup (void *addr);
 int
 main (int argc, char *argv[])
 {
+	init_cfg(argc, argv);
+
   int server_sockfd = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
   struct sockaddr_in server_sockaddr;

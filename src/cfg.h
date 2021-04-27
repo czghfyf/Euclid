@@ -7,5 +7,7 @@ struct config {
 
 struct config *get_cfg();
 
+int init_cfg(int argc, char *argv[]);
+
 #endif
 
