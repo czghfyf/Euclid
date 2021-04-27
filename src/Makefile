@@ -5,10 +5,10 @@ euclid cli: $(OSQE) cli.c
 	gcc cli.c -o cli
 
 lex.yy.c: ec-lexical.l
-	flex ec-lexical.l
+	flex $<
 
 ec-grammar.tab.c ec-grammar.tab.h: ec-grammar.y
-	bison -d ec-grammar.y
+	bison -d $<
 
 clean:
 	rm -f euclid cli
