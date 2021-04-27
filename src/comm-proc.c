@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "command-processor.h"
+#include "comm-proc.h"
 
 extern int scan_comm_stat(const char *cs);
 extern void cleanup_yy_str_buff();

@@ -2,14 +2,14 @@ euclid cli: Euclid.o comm-proc.o yacc-bison.o lex-flex.o cfg.o cli.c
 	gcc Euclid.o comm-proc.o yacc-bison.o lex-flex.o cfg.o -lfl -lpthread -o euclid
 	gcc cli.c -o cli
 
-Euclid.o: Euclid.c command-processor.h cfg.h
+Euclid.o: Euclid.c comm-proc.h cfg.h
 	gcc -c Euclid.c
 
 cfg.o: cfg.c cfg.h
 	gcc -c cfg.c
 
-comm-proc.o: command-processor.c command-processor.h
-	gcc -c command-processor.c -o comm-proc.o
+comm-proc.o: comm-proc.c comm-proc.h
+	gcc -c comm-proc.c
 
 lex-flex.o: lex.yy.c statement-grammar.tab.h
 	gcc -c lex.yy.c -o lex-flex.o

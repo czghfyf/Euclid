@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "command-processor.h"
+#include "comm-proc.h"
 #include "cfg.h"
 
 static void *cli_thread_startup (void *addr);
