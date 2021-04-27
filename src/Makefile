@@ -1,5 +1,5 @@
-euclid cli: Euclid.o comm-proc.o yacc-bison.o lex-flex.o cfg.o cli.c
-	gcc Euclid.o comm-proc.o yacc-bison.o lex-flex.o cfg.o -lfl -lpthread -o euclid
+euclid cli: Euclid.o comm-proc.o ec-grammar.o lex.yy.o cfg.o cli.c
+	gcc Euclid.o comm-proc.o ec-grammar.o lex.yy.o cfg.o -lfl -lpthread -o euclid
 	gcc cli.c -o cli
 
 Euclid.o: Euclid.c comm-proc.h cfg.h
@@ -11,17 +11,17 @@ cfg.o: cfg.c cfg.h
 comm-proc.o: comm-proc.c comm-proc.h
 	gcc -c comm-proc.c
 
-lex-flex.o: lex.yy.c statement-grammar.tab.h
-	gcc -c lex.yy.c -o lex-flex.o
+lex.yy.o: lex.yy.c ec-grammar.tab.h
+	gcc -c lex.yy.c -o lex.yy.o
 
-lex.yy.c: statement-lexical.l
-	flex statement-lexical.l
+lex.yy.c: ec-lexical.l
+	flex ec-lexical.l
 
-yacc-bison.o: statement-grammar.tab.c statement-grammar.tab.h
-	gcc -c statement-grammar.tab.c -o yacc-bison.o
+ec-grammar.o: ec-grammar.tab.c ec-grammar.tab.h
+	gcc -c ec-grammar.tab.c -o ec-grammar.o
 
-statement-grammar.tab.c statement-grammar.tab.h: statement-grammar.y
-	bison -d statement-grammar.y
+ec-grammar.tab.c ec-grammar.tab.h: ec-grammar.y
+	bison -d ec-grammar.y
 
 clean:
 	rm -f *.c~

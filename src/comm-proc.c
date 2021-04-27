@@ -6,7 +6,6 @@
 
 extern int scan_comm_stat(const char *cs);
 extern void cleanup_yy_str_buff();
-
 extern int yyparse(void);
 
 void process_command(char *command_stat)

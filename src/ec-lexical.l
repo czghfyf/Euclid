@@ -1,5 +1,5 @@
 %{
-#include "statement-grammar.tab.h"
+#include "ec-grammar.tab.h"
 
 extern int yyerror(const char *fmt, ...);
 %}
