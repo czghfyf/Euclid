@@ -5,20 +5,21 @@
 
 #include "comm-proc.h"
 #include "cfg.h"
+#include "utils.h"
 
 static void *cli_thread_startup (void *addr);
 
 int
 main (int argc, char *argv[])
 {
-	init_cfg(argc, argv);
+  init_cfg (argc, argv);
 
   int server_sockfd = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
   struct sockaddr_in server_sockaddr;
   memset (&server_sockaddr, 0, sizeof (server_sockaddr));
   server_sockaddr.sin_family = AF_INET;
-  server_sockaddr.sin_port = htons (get_cfg() -> port);
+  server_sockaddr.sin_port = htons (get_cfg ()->port);
   server_sockaddr.sin_addr.s_addr = htonl (INADDR_ANY);
 
   if (bind (server_sockfd,
@@ -66,27 +67,20 @@ static void *
 cli_thread_startup (void *addr)
 {
   int cli_conn = *((int *) addr);
-  char buffer[1024 * 512];	// 512k
+  // char buffer[1024 * 512];   // 512k
+
+  void *buf;
+  size_t buf_len;
 
   while (1)
     {
-      memset (buffer, 0, sizeof (buffer));
-      int len = recv (cli_conn, buffer, sizeof (buffer), 0);
-//      printf ("len[%d] = %d\n", cli_conn, len);
-      if (len < 1)
-	{
-	  printf ("client [%d] disconnect.\n", cli_conn);
-	  break;
-	}
-      printf ("from client[%d]:\n%s\n", cli_conn, buffer);
+      read_socket_data (cli_conn, &buf, &buf_len);
 
-
-		// TODO Copy the command statement, and hand it over to the command processor for processing.
-		char *command_stat = malloc(strlen(buffer));
-		memcpy(command_stat, buffer, strlen(buffer));
-		process_command(command_stat);
+      // TODO Copy the command statement, and hand it over to the command processor for processing.
+      // process_command(buf);
 
       send (cli_conn, "done", strlen ("done"), 0);
     }
+
   close (cli_conn);
 }

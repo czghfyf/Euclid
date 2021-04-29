@@ -1,4 +1,4 @@
-OSQE = Euclid.o cfg.o comm-proc.o ec-grammar.tab.o lex.yy.o
+OSQE = Euclid.o cfg.o utils.o comm-proc.o ec-grammar.tab.o lex.yy.o
 
 euclid cli: $(OSQE) cli.c
 	gcc $(OSQE) -lfl -lpthread -o euclid
