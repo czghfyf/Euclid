@@ -12,5 +12,5 @@ ec-grammar.tab.c ec-grammar.tab.h: ec-grammar.y
 
 clean:
 	rm -f euclid cli
-	rm -f *.o *.out *.c~
+	rm -f *.o *.out *.c~ *.h~
 	rm -f lex.yy.c ec-grammar.tab.c ec-grammar.tab.h
