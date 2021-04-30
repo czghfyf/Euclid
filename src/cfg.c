@@ -3,7 +3,7 @@
 
 #include "cfg.h"
 
-static struct config cfg = { 8766 };
+static struct config cfg = { 8760 };
 
 static int set_parameters(char *param_name, char *param_val);
 

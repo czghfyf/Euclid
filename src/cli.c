@@ -3,7 +3,7 @@
 #include <arpa/inet.h>
 #include <string.h>
 
-#define MYPORT  8766
+#define MYPORT  8760
 #define BUFFER_SIZE 1024
 
 int
