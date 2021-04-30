@@ -52,6 +52,10 @@ read_socket_data (int cli_socket_fd, void **buf, size_t * buf_len)
       buf_cursor += bs_count;
     }
 
+//   printf ("data package capacity = %d\n", pkg_capacity);
+//   printf ("data package content length = %d\n",
+// 	  pkg_capacity - sizeof (pkg_capacity));
+
   *buf = m_buf;
   return *buf_len = pkg_capacity;
 }
