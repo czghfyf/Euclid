@@ -9,7 +9,7 @@
 #include <fcntl.h>
 #include <sys/shm.h>
 
-#define MYPORT  8887
+#define MYPORT  8760
 #define QUEUE   20
 #define BUFFER_SIZE 1024
 
@@ -49,6 +49,9 @@ main ()
   ///成功返回非负描述字，出错返回-1
   int conn =
     accept (server_sockfd, (struct sockaddr *) &client_addr, &length);
+
+	printf("------------------- client connect is %d ---------------------\n", conn);
+
   if (conn < 0)
     {
       perror ("connect");
