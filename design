@@ -1,0 +1,8 @@
+Command packet structure.
+Command packet is a byte array, the first 4 bytes of this array represent the capacity of the entire data packet.
+For example, consider the following array with 16 bytes:
+0x00 0x00 0x00 0x10 0xA7 0x09 0xAA 0xCD 0xCC 0xDD 0xEE 0xFF 0x00 0x01 0xAC 0xBD
+The first 4 bytes (0x00 0x00 0x00 0x10) represent an int type value 16, indicates the capacity of the entire command packet.
+The next 12 bytes represent a command, the two bytes (0xA7 0x09) represent the command type, and the next 10 bytes (start with 0xAA) represent the specific command content.
+
+

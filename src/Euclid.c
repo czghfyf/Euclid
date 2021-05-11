@@ -78,8 +78,12 @@ cli_thread_startup (void *addr)
 
       // TODO Copy the command statement, and hand it over to the command processor for processing.
       // process_command(buf);
+		eCommand *ec = convert_to_command(buf);
 
-      send (cli_conn, "done", strlen ("done"), 0);
+		eCommand *result =  plan_exe_command(ec);
+
+      // send (cli_conn, "done", strlen ("done"), 0);
+      send (cli_conn, result, result -> data_pkg_capacity, 0);
     }
 
   close (cli_conn);
