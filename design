@@ -6,3 +6,22 @@ The first 4 bytes (0x00 0x00 0x00 0x10) represent an int type value 16, indicate
 The next 12 bytes represent a command, the two bytes (0xA7 0x09) represent the command type, and the next 10 bytes (start with 0xAA) represent the specific command content.
 
 
+Express intent:
+0th to 3rd bytes (0x00 0x00 0x00 0x08) represent the capacity of the entire data packet.
+4th to 5rd bytes (0x00 0x00) command type is express intent.
+6th to 7rd bytes (0x00 0x00) The party requesting the connection is the client program.
+				 (0x00 0x01) The party requesting the connection is another Euclid service node.
+
+
+Agree:
+0th to 3rd bytes (0x00 0x00 0x00 0x06) data packet capacity.
+4th to 5rd bytes (0x00 0x01) agree.
+
+
+Establish node connection:
+ 0th to  3rd bytes (0x00 0x00 0x00 0x0C) data packet capacity.
+ 4th to  5rd bytes (0x00 0x02) Connect to another Euclid service node and become its child node.
+ 6th to  9rd bytes - parent Euclid service node IP.
+10th to 11rd bytes - parent Euclid service node port.
+
+
