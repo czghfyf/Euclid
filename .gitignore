@@ -10,7 +10,7 @@ target/
 *.out
 *.o
 src/euclid
-src/cli
+src/euclid-cli
 # tests/
 temp/
 *.yy.c
