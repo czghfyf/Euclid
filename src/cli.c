@@ -3,12 +3,40 @@
 #include <arpa/inet.h>
 #include <string.h>
 
+#include "constants.h"
+
 #define MYPORT  8760
 #define BUFFER_SIZE 1024
+
+char *p_host;
+int p_port;
+char *p_join_node_host;
+int p_join_node_port;
+
+void extract_param(char *param);
 
 int
 main (int argc, char *argv[])
 {
+  int i = 1;
+  while (i < argc) {
+    printf("param[%d] %s\n", i, argv[i]);
+    extract_param(argv[i]);
+    ++i;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
   if (argc < 2)
     {
       printf ("Please specify a command file.\n");
@@ -59,5 +87,30 @@ main (int argc, char *argv[])
   close (sock_cli);
 
   return 0;
+
+}
+
+void extract_param(char *param)
+{
+  char *val = strchr(param, '=');
+  *val = 0;
+  ++val;
+  printf("param key[%s] val[%s]\n", param, val);
+
+  if (strcmp(param, P_HOST) == 0) {
+    p_host = val;
+  }
+
+  if (strcmp(param, P_PORT) == 0) {
+    p_port = atoi(val);
+  }
+
+  if (strcmp(param, P_JOIN_NODE_HOST) == 0) {
+    p_join_node_host = val;
+  }
+
+  if (strcmp(param, P_JOIN_NODE_PORT) == 0) {
+    p_join_node_port = atoi(val);
+  }
 
 }
