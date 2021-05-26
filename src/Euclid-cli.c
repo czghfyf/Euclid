@@ -25,6 +25,29 @@ main (int argc, char *argv[])
     ++i;
   }
 
+  int sock_cli = socket (AF_INET, SOCK_STREAM, 0);
+
+  struct sockaddr_in servaddr;
+  memset (&servaddr, 0, sizeof (servaddr));
+  servaddr.sin_family = AF_INET;
+  servaddr.sin_port = htons (p_port);
+  servaddr.sin_addr.s_addr = inet_addr (p_host);
+
+  if (connect (sock_cli, (struct sockaddr *) &servaddr, sizeof (servaddr)) < 0) {
+       printf("error. connect %s:%d\n", p_host, p_port);
+      return 1;
+    }
+
+       printf("already connected %s:%d\n", p_host, p_port);
+
+//  send (sock_cli, statement, strlen (statement) - 1, 0);
+       char intent[8];
+       memset(intent, 0, 8);
+       intent[0] = 8;
+
+       send(sock_cli, intent, 8, 0);
+
+  close (sock_cli);
 
 
 
@@ -67,24 +90,6 @@ main (int argc, char *argv[])
     }
   fclose (fp);
 
-  int sock_cli = socket (AF_INET, SOCK_STREAM, 0);
-
-  struct sockaddr_in servaddr;
-  memset (&servaddr, 0, sizeof (servaddr));
-  servaddr.sin_family = AF_INET;
-  servaddr.sin_port = htons (MYPORT);
-  servaddr.sin_addr.s_addr = inet_addr ("127.0.0.1");
-
-  if (connect (sock_cli, (struct sockaddr *) &servaddr, sizeof (servaddr)) <
-      0)
-    {
-      perror ("connect");
-      return 1;
-    }
-
-  send (sock_cli, statement, strlen (statement) - 1, 0);
-
-  close (sock_cli);
 
   return 0;
 

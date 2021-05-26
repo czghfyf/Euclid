@@ -72,6 +72,16 @@ cli_thread_startup (void *addr)
   void *buf;
   size_t buf_len;
 
+       read_socket_data (cli_conn, &buf, &buf_len);
+       eCommand *firstCommand = convert_to_command(buf);
+
+       printf("check first command. command type is %d\n", firstCommand -> command_type);
+       printf("check first command. command length is %d\n", firstCommand -> command_length);
+
+       if (firstCommand -> command_type == CT_INTENT) {
+
+       }
+
   while (1)
     {
       read_socket_data (cli_conn, &buf, &buf_len);
