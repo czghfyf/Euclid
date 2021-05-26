@@ -21,6 +21,9 @@ char *argv[];
 	printf("sizeof(long int) = %d\n", sizeof(long int));
 	printf("sizeof(long) = %d\n", sizeof(long));
 	printf("sizeof(unsigned long) = %d\n", sizeof(unsigned long));
+
+	short ss[9];
+	printf("-------- %d\n", sizeof(ss));
 }
 
 fn000(a, b)
