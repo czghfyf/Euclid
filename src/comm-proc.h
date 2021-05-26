@@ -1,5 +1,9 @@
 #ifndef __EUCLID_COMM_PROC_H__
-#define __EUCLID_COMM_PROC_H__
+#define __EUCLID_COMM_PROC_H__ 1
+
+#define CT_INTENT 0
+#define CT_AGREE 1
+#define CT_GO_TO_JOIN_CLUSTER 2
 
 typedef struct euclid_command {
 	char *mem_addr;
