@@ -4,6 +4,8 @@
 #define CT_INTENT             0
 #define CT_AGREE              1
 #define CT_GO_TO_JOIN_CLUSTER 2
+#define FIXC_DISCONNECT       3
+#define FIXC_DONE             4
 
 typedef struct euclid_command {
 	char *mem_addr;
@@ -12,6 +14,14 @@ typedef struct euclid_command {
 	char *command;
 	unsigned int command_length;
 } eCommand;
+
+eCommand *command_agree;
+eCommand *FIXC_done;
+eCommand *fixcDisconnect;
+
+void init_comm_proc();
+
+void freeCommand(eCommand *cp);
 
 eCommand *convert_to_command(char *mem_addr);
 

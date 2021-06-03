@@ -8,6 +8,35 @@ extern int scan_comm_stat(const char *cs);
 extern void cleanup_yy_str_buff();
 extern int yyparse(void);
 
+void init_comm_proc()
+{
+	// init command_agree
+	char *mem_addr = malloc(6);
+	memset(mem_addr, 0, 6);
+	*((int *) mem_addr) = 6;
+	*((short *) (mem_addr + 4)) = CT_AGREE;
+	command_agree = convert_to_command(mem_addr);
+
+	// init FIXC_done
+	char *fixcDoneMem= malloc(6);
+	memset(fixcDoneMem, 0, 6);
+	*((int *) fixcDoneMem) = 6;
+	*((short *) (fixcDoneMem + 4)) = FIXC_DONE;
+	FIXC_done = convert_to_command(fixcDoneMem);
+
+	// init fixcDisconnect
+	char *disconnMem = malloc(6);
+	memset(disconnMem, 0, 6);
+	*((int *) disconnMem) = 6;
+	*((short *) (disconnMem + 4)) = FIXC_DISCONNECT;
+	fixcDisconnect = convert_to_command(disconnMem);
+}
+
+void freeCommand(eCommand *cp)
+{
+	free(cp -> mem_addr);
+	free(cp);
+}
 
 eCommand *convert_to_command(char *m_addr)
 {

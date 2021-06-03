@@ -1,8 +1,11 @@
-OSQE = Euclid.o cfg.o utils.o comm-proc.o ec-grammar.tab.o lex.yy.o
+OSQE = cfg.o utils.o comm-proc.o ec-grammar.tab.o lex.yy.o
+SRC  = cfg.c utils.c comm-proc.c ec-grammar.tab.c lex.yy.c
 
-euclid euclid-cli: $(OSQE) Euclid-cli.c
-	gcc $(OSQE) -lfl -lpthread -o euclid
-	gcc Euclid-cli.c -o euclid-cli
+euclid euclid-cli: $(OSQE) Euclid.o Euclid-cli.o $(SRC) Euclid.c Euclid-cli.c
+	gcc Euclid.o     $(OSQE) -lfl -lpthread -o euclid
+	gcc Euclid-cli.o $(OSQE) -lfl -lpthread -o euclid-cli
+	gcc Euclid.c     $(SRC)  -lfl -lpthread -o euclid.out -g
+	gcc Euclid-cli.c $(SRC)  -lfl -lpthread -o euclid-cli.out -g
 
 lex.yy.c: ec-lexical.l
 	flex $<

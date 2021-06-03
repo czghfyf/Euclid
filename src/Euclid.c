@@ -9,10 +9,14 @@
 
 static void *cli_thread_startup (void *addr);
 
+static void join_cluster(eCommand *ec);
+
 int
 main (int argc, char *argv[])
 {
   init_cfg (argc, argv);
+
+	init_comm_proc();
 
   int server_sockfd = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -26,7 +30,7 @@ main (int argc, char *argv[])
 	    (struct sockaddr *) &server_sockaddr,
 	    sizeof (server_sockaddr)) != 0)
     {
-      printf ("error bind 8760\n");
+      printf ("error bind %d\n", get_cfg() -> port);
       exit (1);
     }
 
@@ -67,34 +71,57 @@ static void *
 cli_thread_startup (void *addr)
 {
   int cli_conn = *((int *) addr);
-  // char buffer[1024 * 512];   // 512k
 
   void *buf;
   size_t buf_len;
 
-       read_socket_data (cli_conn, &buf, &buf_len);
+       ssize_t ss = read_socket_data (cli_conn, &buf, &buf_len);
+		// printf("firstCommand.read_socket_data.return.ssize_t = %zd\n", ss);
        eCommand *firstCommand = convert_to_command(buf);
-
-       printf("check first command. command type is %d\n", firstCommand -> command_type);
-       printf("check first command. command length is %d\n", firstCommand -> command_length);
+       // printf("check first command. command type is %d\n", firstCommand -> command_type);
+       // printf("check first command. command length is %d\n", firstCommand -> command_length);
+       printf("<<< recv <<< check first command. command type %d\n", firstCommand -> command_type);
 
        if (firstCommand -> command_type == CT_INTENT) {
+			freeCommand(firstCommand);		
 
+       	  // printf("command_agree -> command_type is %d\n", command_agree -> command_type);
+       	  // printf("command_agree -> command_length is %d\n", command_agree -> command_length);
+
+			send (cli_conn, command_agree -> mem_addr, command_agree -> data_pkg_capacity, 0);
+			printf(">>> send >>> agree.\n");
+
+		  while (1)
+		    {
+		      ss = read_socket_data (cli_conn, &buf, &buf_len);
+			if (ss < 1)
+				break;
+
+				eCommand *ec = convert_to_command(buf);
+       	  		printf("<<< recv <<< ec -> command_type is %d\n", ec -> command_type);
+       	  		// printf("ec -> command_type is %d\n", ec -> command_type);
+       	  		// printf("ec -> command_length is %d\n", ec -> command_length);
+
+				if (ec -> command_type == CT_GO_TO_JOIN_CLUSTER) {
+					join_cluster(ec);
+					send (cli_conn, FIXC_done -> mem_addr, FIXC_done -> data_pkg_capacity, 0);
+					printf(">>> send >>> done.\n");
+				} else if (ec -> command_type == FIXC_DISCONNECT) {
+					freeCommand(ec);
+					send (cli_conn, command_agree -> mem_addr, command_agree -> data_pkg_capacity, 0);
+					printf(">>> send >>> agree.\n");
+					break;
+				}
+		
+		    }
        }
-
-  while (1)
-    {
-      read_socket_data (cli_conn, &buf, &buf_len);
-
-      // TODO Copy the command statement, and hand it over to the command processor for processing.
-      // process_command(buf);
-		eCommand *ec = convert_to_command(buf);
-
-		eCommand *result =  plan_exe_command(ec);
-
-      // send (cli_conn, "done", strlen ("done"), 0);
-      send (cli_conn, result, result -> data_pkg_capacity, 0);
-    }
 
   close (cli_conn);
 }
+
+static void join_cluster(eCommand *ec)
+{
+	printf("Fuction: join_cluster(...) ...\n");
+	freeCommand(ec);
+}
+

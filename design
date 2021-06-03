@@ -16,8 +16,15 @@ Agree(CT_AGREE):
 4th to 5rd bytes (0x01 0x00) agree.
 
 Establish node connection(CT_GO_TO_JOIN_CLUSTER):
- 0th to  3rd bytes (0x0C 0x00 0x00 0x00) data packet capacity.
+ 0th to  3rd bytes (0x1A 0x00 0x00 0x00) data packet capacity.
  4th to  5rd bytes (0x02 0x00) Connect to an other Euclid service node and become its child node.
- 6th to  9rd bytes - parent Euclid service node IP.
-10th to 11rd bytes - parent Euclid service node port.
+ 6th to 21rd bytes - a string that the parent Euclid service node IP.
+22th to 25rd bytes - int - the parent Euclid service node port.
 
+Disconnect(FIXC_DISCONNECT):
+0th to 3rd bytes (0x06 0x00 0x00 0x00) data packet capacity.
+4th to 5rd bytes (0x03 0x00) TCP disconnect.
+
+Done(FIXC_DONE):
+0th to 3rd bytes (0x06 0x00 0x00 0x00) data packet capacity.
+4th to 5rd bytes (0x04 0x00) done.

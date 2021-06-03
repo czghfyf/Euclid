@@ -1,9 +1,12 @@
 #include <sys/socket.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <arpa/inet.h>
 #include <string.h>
 
 #include "constants.h"
+#include "comm-proc.h"
+#include "utils.h"
 
 #define MYPORT  8760
 #define BUFFER_SIZE 1024
@@ -24,6 +27,7 @@ main (int argc, char *argv[])
     extract_param(argv[i]);
     ++i;
   }
+	init_comm_proc();
 
   int sock_cli = socket (AF_INET, SOCK_STREAM, 0);
 
@@ -40,59 +44,67 @@ main (int argc, char *argv[])
 
        printf("already connected %s:%d\n", p_host, p_port);
 
-//  send (sock_cli, statement, strlen (statement) - 1, 0);
        char intent[8];
        memset(intent, 0, 8);
        intent[0] = 8;
-
        send(sock_cli, intent, 8, 0);
+	printf(">>> send >>> intent.\n");
+
+
+  void *buf;
+  size_t buf_len;
+
+       read_socket_data (sock_cli, &buf, &buf_len);
+       eCommand *serv_resp = convert_to_command(buf);
+	printf("<<< recv <<< command_type %d\n", serv_resp -> command_type);
+//       	  printf("serv_resp -> command_type is %d\n", serv_resp -> command_type);
+//       	  printf("serv_resp -> command_length is %d\n", serv_resp -> command_length);
+
+	if (serv_resp -> command_type != CT_AGREE) {
+  		close (sock_cli);
+		printf("the connection request was rejected by server.\n");
+		return 1;
+	}
+
+	if (p_join_node_host != NULL) {
+
+		char *mem_addr = malloc(26);
+		memset(mem_addr, 0, 26);
+		*((int *) mem_addr) = 26;
+		*((short *) (mem_addr + 4)) = CT_GO_TO_JOIN_CLUSTER;
+		strcpy(mem_addr + 6, p_join_node_host);
+		*((int *) (mem_addr + 22)) = p_join_node_port;
+
+		eCommand *join_cluster_command = convert_to_command(mem_addr);
+		// printf("join_cluster_command -> mem_addr %p\n", join_cluster_command -> mem_addr);
+		// printf("join_cluster_command -> data_pkg_capacity %d\n", join_cluster_command -> data_pkg_capacity);
+        send(sock_cli, join_cluster_command -> mem_addr, join_cluster_command -> data_pkg_capacity, 0);
+		printf(">>> send >>> go to join a cluster.\n");
+
+
+       read_socket_data (sock_cli, &buf, &buf_len);
+       serv_resp = convert_to_command(buf);
+       	  // printf("serv_resp -> command_type is %d\n", serv_resp -> command_type);
+       	  // printf("serv_resp -> command_length is %d\n", serv_resp -> command_length);
+		printf("<<< recv <<< command_type %d\n", serv_resp -> command_type);
+
+		goto cli_exit;
+	}
+
+	cli_exit:
+        send(sock_cli, fixcDisconnect -> mem_addr, fixcDisconnect -> data_pkg_capacity, 0);
+		printf(">>> send >>> disconnect.\n");
+
+
+       read_socket_data (sock_cli, &buf, &buf_len);
+       serv_resp = convert_to_command(buf);
+       	  // printf("cli try exit. server replay: command_type %d\n", serv_resp -> command_type);
+       	  // printf("cli try exit. server replay: command_length %d\n", serv_resp -> command_length);
+		printf("<<< recv <<< command_type %d\n", serv_resp -> command_type);
 
   close (sock_cli);
 
-
-
-
-
-
-
-
-
-
-
-
-  if (argc < 2)
-    {
-      printf ("Please specify a command file.\n");
-      return 1;
-    }
-
-  FILE *fp = fopen (argv[1], "r");
-  if (fp == 0)
-    {
-      printf ("Failed to read file[%s].\n", argv[1]);
-      return 1;
-    }
-
-  char buff[1024];
-
-  char statement[1024 * 256];	// 256k
-
-  while (1)
-    {
-
-      memset (buff, 0, sizeof (buff));
-      if (fgets (buff, sizeof (buff), fp) == 0)
-	{
-	  break;
-	}
-
-      strcat (statement, buff);
-    }
-  fclose (fp);
-
-
   return 0;
-
 }
 
 void extract_param(char *param)
