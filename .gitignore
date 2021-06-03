@@ -7,6 +7,7 @@ target/
 
 
 *.c~
+*.h~
 *.out
 *.o
 src/euclid
