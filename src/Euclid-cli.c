@@ -79,7 +79,7 @@ main (int argc, char *argv[])
 		// printf("join_cluster_command -> mem_addr %p\n", join_cluster_command -> mem_addr);
 		// printf("join_cluster_command -> data_pkg_capacity %d\n", join_cluster_command -> data_pkg_capacity);
         send(sock_cli, join_cluster_command -> mem_addr, join_cluster_command -> data_pkg_capacity, 0);
-		printf(">>> send >>> go to join a cluster.\n");
+		printf(">>> send >>> go to join[%s:%d] a cluster.\n", join_cluster_command->command, *((int *)(join_cluster_command->command + 16))  );
 
 
        read_socket_data (sock_cli, &buf, &buf_len);

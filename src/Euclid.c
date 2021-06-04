@@ -131,6 +131,7 @@ cli_thread_startup (void *addr)
 static void
 join_cluster (eCommand * ec)
 {
-  printf ("Fuction: join_cluster(...) ...\n");
+//  printf ("Fuction: join_cluster(...) ...\n");
+	printf("join to cluster, parent node: %s:%d\n", ec -> command ,  *( (int *)(ec->command + 16) )         );
   freeCommand (ec);
 }
