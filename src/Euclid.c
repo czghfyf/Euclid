@@ -133,5 +133,27 @@ join_cluster (eCommand * ec)
 {
 //  printf ("Fuction: join_cluster(...) ...\n");
 	printf("join to cluster, parent node: %s:%d\n", ec -> command ,  *( (int *)(ec->command + 16) )         );
+
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	char *p_node_host = ec->command;
+	int p_node_port = *( (int *)(ec->command + 16) );
+	printf(">>>>>>>>>>>>>>>>> %s:%d\n", p_node_host,p_node_port);
+
+
+//  int sock_cli = socket (AF_INET, SOCK_STREAM, 0);
+//
+//  struct sockaddr_in servaddr;
+//  memset (&servaddr, 0, sizeof (servaddr));
+//  servaddr.sin_family = AF_INET;
+//  servaddr.sin_port = htons (p_port);
+//  servaddr.sin_addr.s_addr = inet_addr (p_host);
+//
+//  if (connect (sock_cli, (struct sockaddr *) &servaddr, sizeof (servaddr)) < 0) {
+//       printf("error. connect %s:%d\n", p_host, p_port);
+//      return 1;
+//    }
+//
+//       printf("already connected %s:%d\n", p_host, p_port);
+// ?????????????????????????????????????????????????????????
   freeCommand (ec);
 }
