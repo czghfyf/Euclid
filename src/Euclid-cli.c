@@ -29,18 +29,28 @@ main (int argc, char *argv[])
   }
 	init_comm_proc();
 
-  int sock_cli = socket (AF_INET, SOCK_STREAM, 0);
 
-  struct sockaddr_in servaddr;
-  memset (&servaddr, 0, sizeof (servaddr));
-  servaddr.sin_family = AF_INET;
-  servaddr.sin_port = htons (p_port);
-  servaddr.sin_addr.s_addr = inet_addr (p_host);
 
-  if (connect (sock_cli, (struct sockaddr *) &servaddr, sizeof (servaddr)) < 0) {
+//  int sock_cli = socket (AF_INET, SOCK_STREAM, 0);
+//
+//  struct sockaddr_in servaddr;
+//  memset (&servaddr, 0, sizeof (servaddr));
+//  servaddr.sin_family = AF_INET;
+//  servaddr.sin_port = htons (p_port);
+//  servaddr.sin_addr.s_addr = inet_addr (p_host);
+//
+//  if (connect (sock_cli, (struct sockaddr *) &servaddr, sizeof (servaddr)) < 0) {
+//       printf("error. connect %s:%d\n", p_host, p_port);
+//      return 1;
+//    }
+
+	int sock_cli = 0;
+	if (socket_connect_to(&sock_cli, p_host, p_port) != 0) {
        printf("error. connect %s:%d\n", p_host, p_port);
       return 1;
-    }
+	}
+
+
 
        printf("already connected %s:%d\n", p_host, p_port);
 
