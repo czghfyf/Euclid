@@ -85,7 +85,8 @@ cli_thread_startup (void *addr)
 
   if (firstCommand->command_type == CT_INTENT)
     {
-		unsigned short visitor_type = *((unsigned short *) (firstCommand -> command));
+      unsigned short visitor_type =
+	*((unsigned short *) (firstCommand->command));
       freeCommand (firstCommand);
 
       // printf("command_agree -> command_type is %d\n", command_agree -> command_type);
@@ -95,42 +96,47 @@ cli_thread_startup (void *addr)
 	    command_agree->data_pkg_capacity, 0);
       printf (">>> send >>> agree.\n");
 
-		if (visitor_type == 0) {
-		      while (1)
-			{
-			  ss = read_socket_data (cli_conn, &buf, &buf_len);
-			  if (ss < 1)
-			    break;
-		
-			  eCommand *ec = convert_to_command (buf);
-			  printf ("<<< recv <<< ec -> command_type is %d\n",
-				  ec->command_type);
-			  // printf("ec -> command_type is %d\n", ec -> command_type);
-			  // printf("ec -> command_length is %d\n", ec -> command_length);
-		
-			  if (ec->command_type == CT_GO_TO_JOIN_CLUSTER)
-			    {
-			      join_cluster (ec);
-			      send (cli_conn, FIXC_done->mem_addr,
-				    FIXC_done->data_pkg_capacity, 0);
-			      printf (">>> send >>> done.\n");
-			    }
-			  else if (ec->command_type == FIXC_DISCONNECT)
-			    {
-			      freeCommand (ec);
-			      send (cli_conn, command_agree->mem_addr,
-				    command_agree->data_pkg_capacity, 0);
-			      printf (">>> send >>> agree.\n");
-			      break;
-			    }
-		
-			}
+      if (visitor_type == 0)
+	{
+	  while (1)
+	    {
+	      ss = read_socket_data (cli_conn, &buf, &buf_len);
+	      if (ss < 1)
+		break;
 
-		} else if (visitor_type == 1) {
-			printf("visitor is a child node.\n");
-		} else {
-			printf("Unexpected error.\n");
+	      eCommand *ec = convert_to_command (buf);
+	      printf ("<<< recv <<< ec -> command_type is %d\n",
+		      ec->command_type);
+	      // printf("ec -> command_type is %d\n", ec -> command_type);
+	      // printf("ec -> command_length is %d\n", ec -> command_length);
+
+	      if (ec->command_type == CT_GO_TO_JOIN_CLUSTER)
+		{
+		  join_cluster (ec);
+		  send (cli_conn, FIXC_done->mem_addr,
+			FIXC_done->data_pkg_capacity, 0);
+		  printf (">>> send >>> done.\n");
 		}
+	      else if (ec->command_type == FIXC_DISCONNECT)
+		{
+		  freeCommand (ec);
+		  send (cli_conn, command_agree->mem_addr,
+			command_agree->data_pkg_capacity, 0);
+		  printf (">>> send >>> agree.\n");
+		  break;
+		}
+
+	    }
+
+	}
+      else if (visitor_type == 1)
+	{
+	  printf ("visitor is a child node.\n");
+	}
+      else
+	{
+	  printf ("Unexpected error.\n");
+	}
 
     }
 
@@ -141,16 +147,18 @@ static void
 join_cluster (eCommand * ec)
 {
 //  printf ("Fuction: join_cluster(...) ...\n");
-	printf("join to cluster, parent node: %s:%d\n", ec -> command ,  *( (int *)(ec->command + 16) )         );
+  printf ("join to cluster, parent node: %s:%d\n", ec->command,
+	  *((int *) (ec->command + 16)));
 
-	char *p_node_host = ec->command;
-	int p_node_port = *( (int *)(ec->command + 16) );
-	printf(">>>>>>>>>>>>>>>>> %s:%d\n", p_node_host,p_node_port);
+  char *p_node_host = ec->command;
+  int p_node_port = *((int *) (ec->command + 16));
+  printf (">>>>>>>>>>>>>>>>> %s:%d\n", p_node_host, p_node_port);
 
-	int socket_chi = 0;
-	socket_connect_to(&socket_chi, p_node_host, p_node_port);
+  int socket_chi = 0;
+  socket_connect_to (&socket_chi, p_node_host, p_node_port);
 
-	send(socket_chi, fixc_intent_cnode-> mem_addr, fixc_intent_cnode -> data_pkg_capacity, 0);
+  send (socket_chi, fixc_intent_cnode->mem_addr,
+	fixc_intent_cnode->data_pkg_capacity, 0);
 
   freeCommand (ec);
 }
