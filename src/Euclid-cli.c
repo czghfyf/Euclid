@@ -54,10 +54,11 @@ main (int argc, char *argv[])
 
        printf("already connected %s:%d\n", p_host, p_port);
 
-       char intent[8];
-       memset(intent, 0, 8);
-       intent[0] = 8;
-       send(sock_cli, intent, 8, 0);
+       // char intent[8];
+       // memset(intent, 0, 8);
+       // intent[0] = 8;
+       // send(sock_cli, intent, 8, 0);
+		send(sock_cli, fixc_intent_cli -> mem_addr, fixc_intent_cli -> data_pkg_capacity, 0);
 	printf(">>> send >>> intent.\n");
 
 

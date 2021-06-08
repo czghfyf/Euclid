@@ -30,6 +30,19 @@ void init_comm_proc()
 	*((int *) disconnMem) = 6;
 	*((short *) (disconnMem + 4)) = FIXC_DISCONNECT;
 	fixcDisconnect = convert_to_command(disconnMem);
+
+	// init fixc_intent_cli
+	char * fixc_intent_cli_mem = malloc(8);
+       memset(fixc_intent_cli_mem, 0, 8);
+	*fixc_intent_cli_mem = 8;
+	fixc_intent_cli = convert_to_command(fixc_intent_cli_mem);
+
+	// init fixc_intent_cnode
+	char * fixc_intent_cnode_mem = malloc(8);
+       memset(fixc_intent_cnode_mem, 0, 8);
+	*fixc_intent_cnode_mem= 8;
+	*(fixc_intent_cnode_mem + 6) = 1;
+	fixc_intent_cnode= convert_to_command(fixc_intent_cnode_mem);
 }
 
 void freeCommand(eCommand *cp)

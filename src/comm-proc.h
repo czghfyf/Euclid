@@ -18,6 +18,8 @@ typedef struct euclid_command {
 eCommand *command_agree;
 eCommand *FIXC_done;
 eCommand *fixcDisconnect;
+eCommand *fixc_intent_cli;
+eCommand *fixc_intent_cnode;
 
 void init_comm_proc();
 
