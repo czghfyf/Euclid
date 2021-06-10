@@ -6,6 +6,7 @@
 #include "comm-proc.h"
 #include "cfg.h"
 #include "utils.h"
+#include "conn.h"
 
 static void *cli_thread_startup (void *addr);
 
@@ -17,6 +18,7 @@ main (int argc, char *argv[])
     init_cfg (argc, argv);
 
     init_comm_proc ();
+	conn_init();
 
     int server_sockfd = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -133,10 +135,15 @@ join_cluster (eCommand * ec)
     int p_node_port = *((int *) (ec->command + 16));
     printf (">>>>>>>>>>>>>>>>> %s:%d\n", p_node_host, p_node_port);
 
-    int socket_chi = 0;
-    socket_connect_to (&socket_chi, p_node_host, p_node_port);
+    // int socket_chi = 0;
+    // socket_connect_to (&socket_chi, p_node_host, p_node_port);
+	SocketConn *scp = socket_conn(p_node_host,p_node_port);
+	if (scp == NULL) {
+		printf("error: scp == NULL\n");
+		return;
+	}
 
-    send (socket_chi, fixc_intent_cnode->mem_addr, fixc_intent_cnode->data_pkg_capacity, 0);
+    send (scp->socket_fd, fixc_intent_cnode->mem_addr, fixc_intent_cnode->data_pkg_capacity, 0);
 
     freeCommand (ec);
 }

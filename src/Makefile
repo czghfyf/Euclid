@@ -1,5 +1,5 @@
-OSQE = cfg.o utils.o comm-proc.o ec-grammar.tab.o lex.yy.o
-SRC  = cfg.c utils.c comm-proc.c ec-grammar.tab.c lex.yy.c
+OSQE = cfg.o utils.o comm-proc.o ec-grammar.tab.o lex.yy.o conn.o
+SRC  = cfg.c utils.c comm-proc.c ec-grammar.tab.c lex.yy.c conn.c
 
 euclid euclid-cli: $(OSQE) Euclid.o Euclid-cli.o $(SRC) Euclid.c Euclid-cli.c
 	gcc Euclid.o     $(OSQE) -lfl -lpthread -o euclid
@@ -17,3 +17,4 @@ clean:
 	rm -f euclid euclid-cli
 	rm -f *.o *.out *.c~ *.h~
 	rm -f lex.yy.c ec-grammar.tab.c ec-grammar.tab.h
+	rm -f .*.swp
