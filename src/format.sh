@@ -1,5 +1,5 @@
 #!/bin/bash
-command_exe="indent -br -l100 -i4 ";
+command_exe="indent -nbad -bap -nbc -bbo -hnl -br -brs -c33 -cd33 -ncdb -ce -ci4 -cli0 -d0 -di1 -nfc1 -i8 -ip0 -l80 -lp -npcs -nprs -npsl -sai -saf -saw -ncs -nsc -sob -nfca -cp33 -ss -ts8 -il1 ";
 echo $@;
 echo "$# files";
 echo "${command_exe} $@";
