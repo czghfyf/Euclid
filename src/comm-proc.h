@@ -6,6 +6,7 @@
 #define CT_GO_TO_JOIN_CLUSTER 2
 #define FIXC_DISCONNECT       3
 #define FIXC_DONE             4
+#define CREATE_DIMENSION      5
 
 typedef struct euclid_command {
 	char *mem_addr;
