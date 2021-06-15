@@ -15,6 +15,8 @@ char *p_host;
 int p_port;
 char *p_join_node_host;
 int p_join_node_port;
+char * pv_0;
+unsigned short command_type;
 
 void extract_param(char *param);
 
@@ -100,6 +102,34 @@ int main(int argc, char *argv[])
 		goto cli_exit;
 	}
 
+	if (command_type == CREATE_DIMENSION) {
+		printf("create a dimension that name is %s\n", pv_0);
+
+		printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> %d <<<<<<<<<<<<<<<<<\n", strlen(pv_0));
+		printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> %d <<<<<<<<<<<<<<<<<\n", strlen(pv_0));
+		printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> %d <<<<<<<<<<<<<<<<<\n", strlen(pv_0));
+
+		int cap = 4 + 2 + strlen(pv_0) + 1;
+
+		char *mem_addr = malloc(cap);
+		memset(mem_addr, 0, cap);
+		*((int *)mem_addr) = cap;
+		*((short *)(mem_addr + 4)) = CREATE_DIMENSION;
+		strcpy(mem_addr + 6, pv_0);
+
+		eCommand *cmd = convert_to_command(mem_addr);
+
+		send(sock_cli, cmd->mem_addr,
+		     cmd ->data_pkg_capacity, 0);
+
+		read_socket_data(sock_cli, &buf, &buf_len);
+		serv_resp = convert_to_command(buf);
+		printf("<<< recv <<< command_type %d\n",
+		       serv_resp->command_type);
+
+		goto cli_exit;
+	}
+
  cli_exit:
 	send(sock_cli, fixcDisconnect->mem_addr,
 	     fixcDisconnect->data_pkg_capacity, 0);
@@ -137,6 +167,11 @@ void extract_param(char *param)
 
 	if (strcmp(param, P_JOIN_NODE_PORT) == 0) {
 		p_join_node_port = atoi(val);
+	}
+
+	if (strcmp(param, P_CREATE_DIMENSION) == 0) {
+		pv_0 = val;
+		command_type = CREATE_DIMENSION;
 	}
 
 }
