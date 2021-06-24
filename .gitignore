@@ -10,6 +10,7 @@ target/
 *.h~
 *.out
 *.o
+*.o~
 src/euclid
 src/euclid-cli
 src/meta/
