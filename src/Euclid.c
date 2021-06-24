@@ -7,6 +7,7 @@
 #include "cfg.h"
 #include "utils.h"
 #include "conn.h"
+#include "model.h"
 
 static void *cli_thread_startup(void *addr);
 
@@ -119,9 +120,13 @@ static void *cli_thread_startup(void *addr)
 					break;
 				} else if (ec->command_type == CREATE_DIMENSION) {
 					printf("<<< CREATE_DIMENSION - %s\n", ec->command);
+					printf("ec->command_length ====================================== %d\n", ec->command_length);
+
+					Dimension * dim = create_dimension(ec->command);
+
 					freeCommand(ec);
-					send(cli_conn, FIXC_done->mem_addr,
-					     FIXC_done->data_pkg_capacity, 0);
+
+					send(cli_conn, FIXC_done->mem_addr, FIXC_done->data_pkg_capacity, 0);
 				}
 
 			}
