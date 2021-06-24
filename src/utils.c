@@ -1,10 +1,88 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 
 #include "utils.h"
+
+// static void rewrite_gid_file(char * gid_file, global_id gid);
+static void rewrite_gid_file(global_id gid);
+
+// current value
+static global_id gid_curval = 0;
+// buffer range
+static global_id gid_bufran = 1000;
+// threshold
+static global_id gid_thresh = 0;
+
+void * malloc0(size_t size)
+{
+	if (size < 1)
+		return NULL;
+
+	void * addr = malloc(size);
+	memset(addr, 0, size);
+
+	return addr;
+}
+
+// static void rewrite_gid_file(char * gid_file, global_id gid)
+static void rewrite_gid_file(global_id gid)
+{
+	char gid_file[256];
+	memset(gid_file, 0, 256);
+	if (getcwd(gid_file, 220) == NULL) {
+		printf("error at fn:rewrite_gid_file(). Program exit.\n");
+		exit(1);
+	}
+
+	strcat(gid_file, "/meta/global_id");
+
+	FILE * fp = fopen(gid_file, "w+");
+	fwrite(&gid, sizeof(gid), 1, fp);
+	fclose(fp);
+}
+
+global_id *gen_global_id(global_id * gid_p)
+{
+	if (gid_curval < gid_thresh) {
+		*gid_p = gid_curval++;
+		if (gid_curval == gid_thresh)
+			rewrite_gid_file(gid_thresh = gid_thresh + gid_bufran);
+		return gid_p;
+	}
+
+	char gid_file[256];
+	memset(gid_file, 0, 256);
+	if (getcwd(gid_file, 220) == NULL) {
+		printf("error at fn:gen_global_id.\n");
+		// exit(1);
+		return NULL;
+	}
+
+	// int gid_len = sizeof(global_id);
+	// if (gid_len == 4)
+	// 	strcat(gid_file, "/meta/global_id-4");
+	// else
+	// 	strcat(gid_file, "/meta/global_id-8");
+
+	strcat(gid_file, "/meta/global_id");
+	printf("global_id file absolute path: %s\n", gid_file);
+
+	if (access(gid_file, F_OK) == 0) {
+		printf("%s is existed.\n", gid_file);
+		FILE * fp = fopen(gid_file, "r");
+		fread(&gid_curval, sizeof(gid_curval), 1, fp);
+	} else {
+		printf("No file %s.\n", gid_file);
+		gid_curval = 1;
+	}
+
+	rewrite_gid_file(gid_thresh = gid_curval + gid_bufran);
+	return gen_global_id(gid_p);
+}
 
 void
 print_byte_binary (char *c)
