@@ -5,6 +5,22 @@
 #include "model.h"
 #include "utils.h"
 
+#define DIM_ARR_CAPACITY 128
+
+static int dim_arr_index = 0;
+static Dimension *dimensions_arr[DIM_ARR_CAPACITY];
+
+static void put_dim(Dimension *dim);
+
+static void put_dim(Dimension *dim)
+{
+	if (dim_arr_index >= DIM_ARR_CAPACITY) {
+		printf("warn: dimensions_arr already fulled. Do Nothing!\n");
+		return;
+	}
+	dimensions_arr[dim_arr_index++] = dim;
+}
+
 Dimension *create_dimension(char *name)
 {
 	if (strlen(name) > DIM_STCT_NAME_LEN) {
@@ -28,6 +44,8 @@ Dimension *create_dimension(char *name)
 	FILE *fp = fopen(dim_file, "a+");
 	fwrite(dim, sizeof(Dimension), 1, fp);
 	fclose(fp);
+
+	put_dim(dim);
 
 	return dim;
 }
