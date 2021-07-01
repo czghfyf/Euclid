@@ -14,6 +14,7 @@ target/
 src/euclid
 src/euclid-cli
 src/meta/
+src/_temp/
 # tests/
 temp/
 *.yy.c
