@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 
 	init_comm_proc();
 	conn_init();
+	model_init();
 
 	int server_sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 

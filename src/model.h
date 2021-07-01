@@ -12,4 +12,6 @@ typedef struct dimension_stct {
 
 Dimension *create_dimension(char *name);
 
+void model_init();
+
 #endif
