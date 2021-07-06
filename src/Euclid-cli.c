@@ -102,6 +102,11 @@ int main(int argc, char *argv[])
 		goto cli_exit;
 	}
 
+	if (command_type == CREATE_MEMBER) {
+
+		goto cli_exit;
+	}
+
 	if (command_type == CREATE_DIMENSION) {
 		printf("create a dimension that name is %s\n", pv_0);
 
@@ -174,4 +179,13 @@ void extract_param(char *param)
 		command_type = CREATE_DIMENSION;
 	}
 
+	if (strcmp(param, P_CREATE_MEMBER) == 0) {
+		// TODO
+		command_type = CREATE_MEMBER;
+		printf("create member: %s\n", val);
+	}
+
+	// if (strcmp(param, P_DIMENSION) == 0) {
+	// 	// TODO
+	// }
 }

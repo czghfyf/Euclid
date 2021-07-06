@@ -10,6 +10,13 @@ typedef struct dimension_stct {
 	char name[DIM_STCT_NAME_LEN];
 } Dimension;
 
+typedef struct member_stct {
+	global_id gid;
+	global_id p_gid;
+	char name[DIM_STCT_NAME_LEN];
+	global_id dim_gid;
+} Member;
+
 Dimension *create_dimension(char *name);
 
 void model_init();

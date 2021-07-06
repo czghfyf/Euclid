@@ -7,6 +7,7 @@
 #define FIXC_DISCONNECT       3
 #define FIXC_DONE             4
 #define CREATE_DIMENSION      5
+#define CREATE_MEMBER         6
 
 typedef struct euclid_command {
 	char *mem_addr;
