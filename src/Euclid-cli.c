@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
 	}
 
 	if (command_type == CREATE_MEMBER) {
-
+		printf("create member --->>> %s\n", pv_0);
 		goto cli_exit;
 	}
 
@@ -180,12 +180,8 @@ void extract_param(char *param)
 	}
 
 	if (strcmp(param, P_CREATE_MEMBER) == 0) {
-		// TODO
 		command_type = CREATE_MEMBER;
-		printf("create member: %s\n", val);
+		pv_0 = val;
 	}
 
-	// if (strcmp(param, P_DIMENSION) == 0) {
-	// 	// TODO
-	// }
 }
